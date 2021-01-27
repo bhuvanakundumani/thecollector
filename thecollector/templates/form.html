@@ -1,0 +1,250 @@
+{% extends "layout.html" %}
+{% block content %}
+    <form method="{{ method if method else 'POST' }}" action="{{ action if action else '' }}" autocomplete="off">
+        {{ form.hidden_tag() }}
+        <div class="form-floating mb-3">
+            {{ form.title(placeholder="Optional title for your content...", class="form-control") }}
+            {{ form.title.label() }}
+        </div>
+        <div class="form-floating mb-3">
+            {% if form.context.errors %}
+                {{ form.context(placeholder="Some story here...", class="is-invalid form-control h-auto", aria_describedby="%sfeedback"%form.context.id) }}
+                <div id="{{ form.context.id }}feedback" class="d-block invalid-feedback">
+                    {% for error in form.context.errors %}
+                        <span>{{ error }}</span>&nbsp;
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.context(placeholder="Some story here...", class="form-control h-auto") }}
+            {% endif %}
+            {{ form.context.label() }}
+        </div>
+        <div class="form-floating mb-3">
+            {% if form.question.errors %}
+                {{ form.question(placeholder="What when happened?", class="is-invalid form-control", aria_describedby="%sfeedback"%form.question.id) }}
+                <div id="{{ form.question.id }}feedback" class="d-block invalid-feedback">
+                    {% for error in form.question.errors %}
+                        <span>{{ error }}</span>&nbsp;
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.question(placeholder="What when happened?", class="form-control") }}
+            {% endif %}
+            {{ form.question.label() }}
+        </div>
+        <div class="mb-3">
+            <div class="form-floating">
+                {% if form.answer_text.errors %}
+                    {{ form.answer_text(placeholder="This is when what happened.", class="is-invalid form-control square-bottom border-bottom-0", aria_describedby="answersfeedback") }}
+                {% else %}
+                    {{ form.answer_text(placeholder="What when happened?", class="form-control square-bottom border-bottom-0") }}
+                {% endif %}
+                {{ form.answer_text.label() }}
+            </div>
+            <div class="input-group flat-top">
+                {{ form.answer_start.label(class="input-group-text square-top-left") }}
+                {% if form.answer_start.errors %}
+                    {{ form.answer_start(placeholder="9", class="is-invalid form-control", aria_describedby="answersfeedback") }}
+                {% else %}
+                    {{ form.answer_start(placeholder="9", class="form-control") }}
+                {% endif %}
+                {{ form.answer_end.label(class="input-group-text") }}
+                {% if form.answer_start.errors %}
+                    {{ form.answer_end(placeholder="42", class="is-invalid form-control square-top-right", aria_describedby="answersfeedback") }}
+                {% else %}
+                    {{ form.answer_end(placeholder="42", class="form-control square-top-right") }}
+                {% endif %}
+            </div>
+            {% if form.answer_text.errors or form.answer_start.errors or form.answer_end.errors %}
+                <div id="answersfeedback" class="d-block invalid-feedback">
+                    {% for error in form.answer_text.errors %}
+                        <span>{{ error }}</span>&nbsp;
+                    {% endfor %}
+                    {% for error in form.answer_start.errors %}
+                        <span>{{ error }}</span>&nbsp;
+                    {% endfor %}
+                    {% for error in form.answer_end.errors %}
+                        <span>{{ error }}</span>&nbsp;
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="btn-group btn-group-lg d-flex" role="group">
+            {{ form.submit(class="btn btn-success px-max") }}
+            <div class="btn-group btn-group-lg d-flex" role="group">
+                <button id="prev" type="button" class="btn btn-primary" data-bs-toggle="button" aria-pressed="false">Pre. occ.</button>
+                <button id="next" type="button" class="btn btn-primary" data-bs-toggle="button" aria-pressed="false">Next occ.</button>
+            </div>
+        </div>
+        <span id="tip" class="text-muted d-none my-2">tip: selected <em id="tipline"></em></span>
+    </form>
+    <div class="my-5">
+        {# <a href="{{ url_for('dump') }}" class="btn btn-info w-100 mb-3">Dump Database</a> #}
+        <button id="rtl" type="button" class="btn btn-secondary float-end" data-bs-toggle="button" autocomplete="off" aria-pressed="false">Toggle RTL</button>
+    </div>
+{% endblock content %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        // RTL switch
+        let rtlbtn = document.getElementById('rtl');
+        rtlbtn.onclick = function() {
+            if (rtlbtn.getAttribute("aria-pressed") == "true") {
+                document.querySelector('html').setAttribute("dir", "ltr");
+                rtlbtn.setAttribute("aria-pressed", "false");
+                rtlbtn.classList.remove("active");
+            } else {
+                document.querySelector('html').setAttribute("dir", "rtl");
+                rtlbtn.setAttribute("aria-pressed", "true");
+                rtlbtn.classList.add("active");
+            }
+        }
+
+        // Helper function for string search
+        function getIndicesOf(searchStr, str, caseSensitive) {
+            var searchStrLen = searchStr.length;
+            if (searchStrLen == 0) {
+                return [];
+            }
+            var startIndex = 0, index, indices = [];
+            if (!caseSensitive) {
+                str = str.toLowerCase();
+                searchStr = searchStr.toLowerCase();
+            }
+            while ((index = str.indexOf(searchStr, startIndex)) > -1) {
+                indices.push(index);
+                startIndex = index + searchStrLen;
+            }
+            return indices;
+        }
+     
+        // Global Index helper
+        let context_field = document.getElementById('{{ form.context.id }}');
+        let answer_field = document.getElementById('{{ form.answer_text.id }}');
+        let start_field = document.getElementById('{{ form.answer_start.id }}');
+        let end_field = document.getElementById('{{ form.answer_end.id }}');
+        let tip = document.getElementById('tip');
+        let tipline = document.getElementById('tipline');
+        let occurances = [];
+
+        update_tipline = function() {
+            let i = Number(start_field.value);
+            let j = Number(end_field.value);
+            let text = context.value.substring(i, j);
+            if (text == "")
+                tip.classList.add("d-none");
+            else {
+                text = context.value.substring(i-30, i) + "<mark>" + text + "</mark>" + context.value.substring(j, j+30);
+                if (i-50 > 0) text = "..." + text;
+                if (context.value.length > j+50) text = text + "...";
+                tipline.innerHTML = text;
+                tip.classList.remove("d-none");
+            }
+        }
+
+        let update_occurances = function() {
+            occurances = getIndicesOf(answer_field.value, context_field.value);
+            update_tipline();
+        }
+        context_field.onchange  = update_occurances;
+        context_field.onkeydown = update_occurances;
+        context_field.onpaste   = update_occurances;
+        context_field.oninput   = update_occurances;
+
+        // Switch to the next or prev occurance
+        function revolve(n) {
+            let i = occurances.indexOf(Number(start_field.value));
+            if (i != -1) {
+                i = i + n;
+                i = occurances[i];
+                if (typeof i != "undefined") {
+                    start_field.value = i;
+                    end_field.value = Number(i) + answer_field.value.length;
+                }
+            }
+        }
+        document.getElementById('prev').onclick = function() {
+            revolve(-1);
+            update_tipline();
+        }
+        document.getElementById('next').onclick = function() {
+            revolve(1);
+            update_tipline();
+        }
+
+        // Find indexes when answer gets updated
+        update_index = function() {
+            update_occurances();
+            if (occurances.length < 0) {
+                start_field.value = "";
+                end_field.value = "";
+            } else {
+                let i = Number(occurances[0]);
+                start_field.value = i;
+                end_field.value = i + answer_field.value.length;
+            }
+            update_tipline();
+        }
+        answer_field.onchange  = update_index;
+        answer_field.onkeydown = update_index;
+        answer_field.onpaste   = update_index;
+        answer_field.oninput   = update_index;
+
+        // Update answer when answer gets updated
+        update_answer = function() {
+            end_field.setAttribute("min", start_field.value); 
+
+            if (end_field.value.length > 2 && end_field.value <= start_field.value)
+                end_field.value = Number(start_field.value) + 1;
+            else if (end_field.value.length > 2 && end_field.value < end_field.getAttribute("min"))
+                end_field.value = end_field.getAttribute("min");
+            else if (end_field.value > context_field.value.length)
+                end_field.value = context_field.value.length;
+            if (Number(start_field.value) - Number(end_field.value) != 0)
+                answer_field.value = context_field.value.substring(start_field.value, end_field.value);
+
+            update_tipline();
+        }
+        start_field.onchange  = update_answer;
+        start_field.onkeydown = update_answer;
+        start_field.onpaste   = update_answer;
+        start_field.oninput   = update_answer;
+        end_field.onchange  = update_answer;
+        end_field.onkeydown = update_answer;
+        end_field.onpaste   = update_answer;
+        end_field.oninput   = update_answer;
+    </script>
+{% endblock scripts %}
+
+{% block style %}
+    textarea {
+        resize: none;
+    }
+    .square-top {
+        border-top-right-radius: 0;
+        border-top-left-radius: 0;
+    }
+    html[dir="rtl"] .square-top-right {
+        border-top-left-radius: 0;
+    }
+    html[dir="rtl"] .square-top-left {
+        border-top-right-radius: 0;
+    }
+    .square-top-left {
+        border-top-left-radius: 0;
+    }
+    .square-top-right {
+        border-top-right-radius: 0;
+    }
+    .square-bottom {
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button,
+    input[type=number] {
+        -webkit-appearance: none;
+        -moz-appearance: textfield;
+        margin: 0;
+    }
+{% endblock style %}

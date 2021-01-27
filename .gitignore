@@ -1,0 +1,6 @@
+/**/__pycache__
+/**/venv
+/static/data/
+site.db
+env.json
+temp.*
