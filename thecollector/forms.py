@@ -3,11 +3,11 @@ from thecollector.validators import AnswerIndicesImplyContext, RelativeNumberRan
 from wtforms import SubmitField, StringField, TextAreaField
 from wtforms.fields.html5 import IntegerField
 from wtforms.widgets.html5 import NumberInput
-from wtforms.validators import DataRequired, NumberRange, InputRequired
+from wtforms.validators import DataRequired, InputRequired
 
 
 class DataForm(FlaskForm):
-    title = StringField("Title")
+    title = StringField("Title", validators=[DataRequired()])
     context = TextAreaField("Context", validators=[DataRequired()])
     question = StringField("Question", validators=[DataRequired()])
     answer_start = IntegerField(
