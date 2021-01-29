@@ -18,16 +18,26 @@ class RelativeNumberRange(object):
         If not provided, maximum value will not be checked.
     :param exclusive:
         If exclusive is True, equal min and max will throw error as well.
+    :param allow_empty:
+        If True, an empty field won't trigger the validation.
     :param message:
         Error message to raise in case of a validation error. Can be
         interpolated using `%(min)s` and `%(max)s` if desired. Useful defaults
         are provided depending on the existence of min and max.
     """
 
-    def __init__(self, min=None, max=None, exclusive=False, message=None):
+    def __init__(
+        self,
+        min=None,
+        max=None,
+        exclusive=False,
+        allow_empty=False,
+        message=None,
+    ):
         self.min = min
         self.max = max
         self.exclusive = exclusive
+        self.allow_empty = allow_empty
         self.message = message
 
     def __call__(self, form, field):
@@ -50,8 +60,11 @@ class RelativeNumberRange(object):
                 raise ValidationError(
                     field.gettext("Invalid field name '%s'.") % self.max
                 )
-        if (
+        if not (  # only run validation if allow_empty is False or data is given
+            self.allow_empty and (data is None or data == "")
+        ) and (
             data is None
+            or not isinstance(data, (int, float, complex))
             or math.isnan(data)
             or (min is not None and data < min)
             or (max is not None and data > max)
@@ -61,7 +74,9 @@ class RelativeNumberRange(object):
             if message is None:
                 # we use %(min)s interpolation to support floats, None, and
                 # Decimals without throwing a formatting exception.
-                if self.exclusive and min == max:
+                if not isinstance(data, (int, float, complex)):
+                    message = field.gettext("Not a valid number value")
+                elif self.exclusive and min == max:
                     message = field.gettext(
                         "Check your parameters for minimum and maximum are both set to %(min)s."
                     )
@@ -86,6 +101,9 @@ class AnswerIndicesImplyContext(object):
         The name of the start index field of the context.
     :param end:
         The name of the end index field of the context.
+    :param allow_empty:
+        If True, answer can be empty providing both start and end are
+        empty as well.
     :param message:
         Error message to raise in case of a validation error. Can be
         interpolated with `%(context_label)s`, `%(context_name)s`,
@@ -93,12 +111,13 @@ class AnswerIndicesImplyContext(object):
         `%(end_name)s` to provide a more helpful error.
     """
 
-    def __init__(self, context, start, end, message=None):
+    def __init__(self, context, start, end, allow_empty=False, message=None):
         self.fields = [
             context,
             start,
             end,
         ]
+        self.allow_empty = allow_empty
         self.message = message
 
     def __call__(self, form, answer):
@@ -110,8 +129,16 @@ class AnswerIndicesImplyContext(object):
                     answer.gettext("Invalid field name '%s'.") % self.fields[i]
                 )
         [context, start, end] = self.fields
-        if (
-            form[context].data is None
+        if not (  # only run validation if allow_empty is False or some kind of data is given
+            self.allow_empty
+            and (answer.data is None or answer.data == "")
+            and (form[start].data is None or form[start].data == "")
+            and (form[end].data is None or form[end].data == "")
+        ) and (  # trigger cases of the ValidatorError
+            (form[context].data is None or form[context].data == "")
+            or (answer.data is None or answer.data == "")
+            or (form[start].data is None or form[start].data == "")
+            or (form[end].data is None or form[end].data == "")
             or isinstance(form[context].data, int)
             or answer.data != form[context].data[form[start].data : form[end].data]
         ):

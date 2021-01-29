@@ -1,0 +1,17 @@
+* back
+- [ ] Add an smart mechanism for jsonify download without writing it on the server.
+# - [ ] Make ZWNJ all spaces
+# - [ ] Lock indices
+* ui
+- [ ] Increase context size
+- [ ] Clear question and answer after submit
+* db
+- [ ] Move context to its own table
+* r2
+- [X] accept empty answer
+- [X] Set Context min=512
+* r1
+- [X] Add CDNs
+- [X] Make Title required
+* r0 (in init commit)
+- [X] Close dump database and its routes

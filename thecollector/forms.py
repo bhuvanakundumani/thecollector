@@ -1,40 +1,53 @@
 from flask_wtf import FlaskForm
 from thecollector.validators import AnswerIndicesImplyContext, RelativeNumberRange
 from wtforms import SubmitField, StringField, TextAreaField
-from wtforms.fields.html5 import IntegerField
 from wtforms.widgets.html5 import NumberInput
-from wtforms.validators import DataRequired, InputRequired
+from wtforms.validators import DataRequired, Length
 
 
 class DataForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired()])
-    context = TextAreaField("Context", validators=[DataRequired()])
+    context = TextAreaField(
+        "Context",
+        render_kw={"minlength": 512},
+        validators=[
+            Length(min=512),
+            DataRequired(),
+        ],
+    )
     question = StringField("Question", validators=[DataRequired()])
-    answer_start = IntegerField(
+    answer_start = StringField(
         "Start",
         widget=NumberInput(min=0),
         validators=[
-            InputRequired(),
-            RelativeNumberRange(min=0, max="context"),
+            RelativeNumberRange(
+                min=0,
+                max="context",
+                allow_empty=True,
+            ),
         ],
     )
-    answer_end = IntegerField(
+    answer_end = StringField(
         "End",
         widget=NumberInput(min=0),
         validators=[
-            InputRequired(),
             RelativeNumberRange(
                 min="answer_start",
                 max="context",
                 exclusive=True,
+                allow_empty=True,
             ),
         ],
     )
     answer_text = StringField(
         "Answer",
         validators=[
-            DataRequired(),
-            AnswerIndicesImplyContext("context", "answer_start", "answer_end"),
+            AnswerIndicesImplyContext(
+                "context",
+                "answer_start",
+                "answer_end",
+                allow_empty=True,
+            ),
         ],
     )
     submit = SubmitField("Submit")

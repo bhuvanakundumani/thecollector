@@ -125,7 +125,23 @@
         let end_field = document.getElementById('{{ form.answer_end.id }}');
         let tip = document.getElementById('tip');
         let tipline = document.getElementById('tipline');
-        let occurances = [];
+        let occurances = [];  // holds indices of found answers in the context
+
+        update_answer_requirements = function() {
+            if (
+                (answer_field.value == null || answer_field.value == "") &&
+                (start_field.value == null || start_field.value == "") &&
+                (end_field.value == null || end_field.value == "")
+            ) {
+                answer_field.removeAttribute("required");
+                start_field.removeAttribute("required");
+                end_field.removeAttribute("required");
+            } else {
+                answer_field.setAttribute("required", true);
+                start_field.setAttribute("required", true);
+                end_field.setAttribute("required", true);
+            }
+        }
 
         update_tipline = function() {
             let i = Number(start_field.value);
@@ -141,15 +157,6 @@
                 tip.classList.remove("d-none");
             }
         }
-
-        let update_occurances = function() {
-            occurances = getIndicesOf(answer_field.value, context_field.value);
-            update_tipline();
-        }
-        context_field.onchange  = update_occurances;
-        context_field.onkeydown = update_occurances;
-        context_field.onpaste   = update_occurances;
-        context_field.oninput   = update_occurances;
 
         // Switch to the next or prev occurance
         function revolve(n) {
@@ -172,6 +179,15 @@
             update_tipline();
         }
 
+        let update_occurances = function() {
+            occurances = getIndicesOf(answer_field.value, context_field.value);
+            update_tipline();
+        }
+        context_field.onchange  = update_occurances;
+        context_field.onkeydown = update_occurances;
+        context_field.onpaste   = update_occurances;
+        context_field.oninput   = update_occurances;
+
         // Find indexes when answer gets updated
         update_index = function() {
             update_occurances();
@@ -184,6 +200,7 @@
                 end_field.value = i + answer_field.value.length;
             }
             update_tipline();
+            update_answer_requirements();
         }
         answer_field.onchange  = update_index;
         answer_field.onkeydown = update_index;
@@ -204,6 +221,7 @@
                 answer_field.value = context_field.value.substring(start_field.value, end_field.value);
 
             update_tipline();
+            update_answer_requirements();
         }
         start_field.onchange  = update_answer;
         start_field.onkeydown = update_answer;
