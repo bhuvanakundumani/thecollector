@@ -9,12 +9,12 @@
 - [ ] Remove Pre. Occ. and Next Occ. buttons
 - [ ] Add a guideline next to the form
 - [ ] Add a title list panel next to the form
-- [ ] Make it full-screen
-- [ ] Increase context size
 - [ ] Clear question and answer after submit
 * DB
 - [ ] Move context to its own table
 * r3
+- [X] Increase context size
+- [X] Make the form full-screen
 - [X] Force RTL/Make it default
 - [X] Fix typo: occurance -> occurrence
 * r2

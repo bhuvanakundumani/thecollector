@@ -9,7 +9,10 @@ class DataForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired()])
     context = TextAreaField(
         "Context",
-        render_kw={"minlength": 512},
+        render_kw={
+            "minlength": 512,
+            "rows": 12,
+        },
         validators=[
             Length(min=512),
             DataRequired(),

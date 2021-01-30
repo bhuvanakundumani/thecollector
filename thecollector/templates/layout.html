@@ -22,8 +22,8 @@
     </head>
     <body>
         <div class="container">
-            <div class="row vh-100 align-items-center">
-                <div class="col-12 col-sm-10 col-md-8 col-lg-6 m-auto">
+            <div class="row min-vh-100 align-items-center">
+                <div class="col m-auto">
                     {% with messages = get_flashed_messages(with_categories=True) %}
                         {% if messages %}
                             {% for category, message in messages %}
