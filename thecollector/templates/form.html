@@ -3,7 +3,16 @@
     <form method="{{ method if method else 'POST' }}" action="{{ action if action else '' }}" autocomplete="off">
         {{ form.hidden_tag() }}
         <div class="form-floating mb-3">
-            {{ form.title(placeholder="Optional title for your content...", class="form-control") }}
+            {% if form.title.errors %}
+                {{ form.title(placeholder="Optional title for your content...", class="is-invalid form-control", aria_describedby="%sfeedback"%form.title.id) }}
+                <div id="{{ form.title.id }}feedback" class="d-block invalid-feedback">
+                    {% for error in form.title.errors %}
+                        <span>{{ error }}</span>&nbsp;
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.title(placeholder="Optional title for your content...", class="form-control") }}
+            {% endif %}
             {{ form.title.label() }}
         </div>
         <div class="form-floating mb-3">
