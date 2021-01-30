@@ -42,7 +42,7 @@ class RelativeNumberRange(object):
 
     def __call__(self, form, field):
         data, max, min = field.data, self.max, self.min
-        if not isinstance(self.min, (int, float, complex)):
+        if not isinstance(self.min, (int, float, complex)) and self.min is not None:
             try:
                 min = form[self.min].data
                 if isinstance(min, str):
@@ -51,7 +51,7 @@ class RelativeNumberRange(object):
                 raise ValidationError(
                     field.gettext("Invalid field name '%s'.") % self.min
                 )
-        if not isinstance(self.max, (int, float, complex)):
+        if not isinstance(self.max, (int, float, complex)) and self.max is not None:
             try:
                 max = form[self.max].data
                 if isinstance(max, str):
@@ -60,6 +60,13 @@ class RelativeNumberRange(object):
                 raise ValidationError(
                     field.gettext("Invalid field name '%s'.") % self.max
                 )
+        # FIXME HACK for preventing "Not a valid number value" false trigger
+        # NOTE if the number is complex it will not work properly
+        if not isinstance(data, (int, float, complex)):
+            try:
+                data = float(data)
+            except ValueError:
+                pass
         if not (  # only run validation if allow_empty is False or data is given
             self.allow_empty and (data is None or data == "")
         ) and (
