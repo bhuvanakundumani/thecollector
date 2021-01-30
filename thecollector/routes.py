@@ -16,17 +16,6 @@ import json
 def root():
     form = DataForm()
     if form.validate_on_submit():
-        DB.session.add(
-            Data(
-                title=form.title.data,
-                context=form.context.data,
-                question=form.question.data,
-                answer_text=form.answer_text.data,
-                answer_start=form.answer_start.data,
-                answer_end=form.answer_end.data,
-            )
-        )
-        DB.session.commit()
         flash("Recorded", "success")
     return render_template("form.html", form=form)
 
