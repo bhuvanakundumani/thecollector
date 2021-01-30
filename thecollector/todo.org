@@ -7,6 +7,7 @@
 - [ ] Remove Pre. Occ. and Next Occ. buttons
 * Applied
 ** r3
+- [X] Help the miss-align Bootstrap groups
 - [X] Increase context size
 - [X] Make the form full-screen
 - [X] Force RTL/Make it default
@@ -20,6 +21,7 @@
 ** r0 (in init commit)
 - [X] Close dump database and its routes
 * Proposed
+- [ ] Help border issues in Bootstrap group classes in RTL
 - [ ] Add a smart mechanism for jsonify download without writing it on the server.
 - [ ] Add a $DIR for form direction
 - [ ] Add a title search feature, listing some of the previous titles with a
