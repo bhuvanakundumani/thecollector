@@ -1,12 +1,21 @@
-* back
+* General
+- [ ] Add a title search feature
+- [ ] Only accept unique titles
+- [ ] Accept 10 pairs of QA, 3 of them without any answer.
 - [ ] Add an smart mechanism for jsonify download without writing it on the server.
-# - [ ] Make ZWNJ all spaces
-# - [ ] Lock indices
-* ui
+- [ ] Save all occurrences instead each one in a separate record automatically
+* UI
+- [ ] Remove Pre. Occ. and Next Occ. buttons
+- [ ] Add a guideline next to the form
+- [ ] Add a title list panel next to the form
+- [ ] Make it full-screen
 - [ ] Increase context size
 - [ ] Clear question and answer after submit
-* db
+* DB
 - [ ] Move context to its own table
+* r3
+- [ ] Force RTL/Make it default
+- [ ] Fix typo: occurance -> occurrence
 * r2
 - [X] accept empty answer
 - [X] Set Context min=512
@@ -15,3 +24,6 @@
 - [X] Make Title required
 * r0 (in init commit)
 - [X] Close dump database and its routes
+# * +crossed+
+# - [ ] Make ZWNJ all spaces
+# - [ ] Lock indices
