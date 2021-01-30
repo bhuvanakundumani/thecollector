@@ -15,7 +15,7 @@
 - [ ] Move context to its own table
 * r3
 - [ ] Force RTL/Make it default
-- [ ] Fix typo: occurance -> occurrence
+- [X] Fix typo: occurance -> occurrence
 * r2
 - [X] accept empty answer
 - [X] Set Context min=512
