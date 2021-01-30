@@ -1,30 +1,32 @@
-* General
-- [ ] Add a title search feature
+* Upcoming
+** General
 - [ ] Only accept unique titles
 - [ ] Accept 10 pairs of QA, 3 of them without any answer.
-- [ ] Add an smart mechanism for jsonify download without writing it on the server.
-- [ ] Save all occurrences instead each one in a separate record automatically
-- [ ] Add a $DIR for form direction
-* UI
+- [ ] Save all occurrences, insert each one in a separate record automatically
+** UI
 - [ ] Remove Pre. Occ. and Next Occ. buttons
-- [ ] Add a guideline next to the form
-- [ ] Add a title list panel next to the form
-- [ ] Clear question and answer after submit
-* DB
-- [ ] Move context to its own table
-* r3
+* Applied
+** r3
 - [X] Increase context size
 - [X] Make the form full-screen
 - [X] Force RTL/Make it default
 - [X] Fix typo: occurance -> occurrence
-* r2
+** r2
 - [X] accept empty answer
 - [X] Set Context min=512
-* r1
+** r1
 - [X] Add CDNs
 - [X] Make Title required
-* r0 (in init commit)
+** r0 (in init commit)
 - [X] Close dump database and its routes
-# * +crossed+
+* Proposed
+- [ ] Add a smart mechanism for jsonify download without writing it on the server.
+- [ ] Add a $DIR for form direction
+- [ ] Add a title search feature, listing some of the previous titles with a
+  search feature
+- [ ] Move context to its own table
+- [ ] Add a guideline next to the form
+* +canceled+
 # - [ ] Make ZWNJ all spaces
 # - [ ] Lock indices
+# - [ ] Clear question and answer after submit
