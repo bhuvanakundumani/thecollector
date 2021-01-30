@@ -4,6 +4,7 @@
 - [ ] Accept 10 pairs of QA, 3 of them without any answer.
 - [ ] Add an smart mechanism for jsonify download without writing it on the server.
 - [ ] Save all occurrences instead each one in a separate record automatically
+- [ ] Add a $DIR for form direction
 * UI
 - [ ] Remove Pre. Occ. and Next Occ. buttons
 - [ ] Add a guideline next to the form
@@ -14,7 +15,7 @@
 * DB
 - [ ] Move context to its own table
 * r3
-- [ ] Force RTL/Make it default
+- [X] Force RTL/Make it default
 - [X] Fix typo: occurance -> occurrence
 * r2
 - [X] accept empty answer

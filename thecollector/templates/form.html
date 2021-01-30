@@ -88,18 +88,30 @@
     <script type="text/javascript">
         // RTL switch
         let rtlbtn = document.getElementById('rtl');
+        let html = document.querySelector('html');
+        document.addEventListener('DOMContentLoaded', function() {
+            if (html.getAttribute("dir") == "rtl") {
+                rtlbtn.setAttribute("aria-pressed", "true");
+                rtlbtn.classList.add("active");
+            } else {
+                html.setAttribute("dir", "ltr");
+                rtlbtn.setAttribute("aria-pressed", "false");
+                rtlbtn.classList.remove("active");
+            }
+        }, false);
         rtlbtn.onclick = function() {
             if (rtlbtn.getAttribute("aria-pressed") == "true") {
-                document.querySelector('html').setAttribute("dir", "ltr");
+                html.setAttribute("dir", "ltr");
                 rtlbtn.setAttribute("aria-pressed", "false");
                 rtlbtn.classList.remove("active");
             } else {
-                document.querySelector('html').setAttribute("dir", "rtl");
+                html.setAttribute("dir", "rtl");
                 rtlbtn.setAttribute("aria-pressed", "true");
                 rtlbtn.classList.add("active");
             }
         }
-
+    </script>
+    <script type="text/javascript">
         // Helper function for string search
         function getIndicesOf(searchStr, str, caseSensitive) {
             var searchStrLen = searchStr.length;
