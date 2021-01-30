@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from thecollector.validators import AnswerIndicesImplyContext, RelativeNumberRange
 from wtforms import SubmitField, StringField, TextAreaField
 from wtforms.widgets.html5 import NumberInput
-from wtforms.validators import DataRequired, Length
+from wtforms.validators import DataRequired, InputRequired, Length
 
 
 class DataForm(FlaskForm):
@@ -23,10 +23,10 @@ class DataForm(FlaskForm):
         "Start",
         widget=NumberInput(min=0),
         validators=[
+            InputRequired(),
             RelativeNumberRange(
                 min=0,
                 max="context",
-                allow_empty=True,
             ),
         ],
     )
@@ -34,22 +34,22 @@ class DataForm(FlaskForm):
         "End",
         widget=NumberInput(min=0),
         validators=[
+            InputRequired(),
             RelativeNumberRange(
                 min="answer_start",
                 max="context",
                 exclusive=True,
-                allow_empty=True,
             ),
         ],
     )
     answer_text = StringField(
         "Answer",
         validators=[
+            DataRequired(),
             AnswerIndicesImplyContext(
                 "context",
                 "answer_start",
                 "answer_end",
-                allow_empty=True,
             ),
         ],
     )

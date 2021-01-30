@@ -139,22 +139,6 @@
         let tipline = document.getElementById('tipline');
         let occurrences = [];  // holds indices of found answers in the context
 
-        update_answer_requirements = function() {
-            if (
-                (answer_field.value == null || answer_field.value == "") &&
-                (start_field.value == null || start_field.value == "") &&
-                (end_field.value == null || end_field.value == "")
-            ) {
-                answer_field.removeAttribute("required");
-                start_field.removeAttribute("required");
-                end_field.removeAttribute("required");
-            } else {
-                answer_field.setAttribute("required", true);
-                start_field.setAttribute("required", true);
-                end_field.setAttribute("required", true);
-            }
-        }
-
         update_tipline = function() {
             let i = Number(start_field.value);
             let j = Number(end_field.value);
@@ -212,7 +196,6 @@
                 end_field.value = i + answer_field.value.length;
             }
             update_tipline();
-            update_answer_requirements();
         }
         answer_field.onchange  = update_index;
         answer_field.onkeydown = update_index;
@@ -233,7 +216,6 @@
                 answer_field.value = context_field.value.substring(start_field.value, end_field.value);
 
             update_tipline();
-            update_answer_requirements();
         }
         start_field.onchange  = update_answer;
         start_field.onkeydown = update_answer;
