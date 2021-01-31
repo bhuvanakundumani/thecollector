@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, StringField, TextAreaField, FormField, Form
+from wtforms import SubmitField, StringField, TextAreaField, FormField, Form, FieldList
 from wtforms.widgets.html5 import NumberInput
 from wtforms.validators import ValidationError, DataRequired, InputRequired, Length
 from thecollector.models import Data
@@ -13,6 +13,7 @@ class NoAnswerForm(Form):
 class AnswerForm(NoAnswerForm):
     _index_widget = NoAnswerForm._index_widget
     question = NoAnswerForm.question
+    text = StringField("Answer", validators=[DataRequired()])
     start = StringField(
         "Start",
         widget=_index_widget,
@@ -23,20 +24,6 @@ class AnswerForm(NoAnswerForm):
         widget=_index_widget,
         validators=[InputRequired()],
     )
-    text = StringField("Answer", validators=[DataRequired()])
-
-
-class AnswersForm(Form):
-    answer_1 = FormField(AnswerForm)
-    answer_2 = FormField(AnswerForm)
-    answer_3 = FormField(AnswerForm)
-    answer_4 = FormField(AnswerForm)
-    answer_5 = FormField(AnswerForm)
-    answer_6 = FormField(AnswerForm)
-    answer_7 = FormField(AnswerForm)
-    no_answer_1 = FormField(NoAnswerForm)
-    no_answer_2 = FormField(NoAnswerForm)
-    no_answer_3 = FormField(NoAnswerForm)
 
 
 class DataForm(FlaskForm):
@@ -52,7 +39,16 @@ class DataForm(FlaskForm):
             DataRequired(),
         ],
     )
-    pairs = AnswersForm()
+    answerables = FieldList(
+        FormField(AnswerForm),
+        min_entries=7,
+        max_entries=7,
+    )
+    impossibles = FieldList(
+        FormField(NoAnswerForm),
+        min_entries=3,
+        max_entries=3,
+    )
     submit = SubmitField("Submit")
 
     def validate_title(self, field):
@@ -63,6 +59,18 @@ class DataForm(FlaskForm):
                 )
             )
 
-    def validate_pairs(self, pairs):
-        # Implement a minimal RelativeNumberRange here and loop for every pair
-        pass
+    def validate(self):
+        if not FlaskForm.validate(self):
+            return False
+        is_valid = True
+        for pair in self.answerables:
+            if (
+                pair.text.data
+                != self.context.data[int(pair.start.data) : int(pair.end.data)]
+            ):
+                pair.text.errors.append(
+                    "Field must be equal to a slice from the start index"
+                    " to the end index of the context, %s." % self.context.name
+                )
+                is_valid = False
+        return is_valid

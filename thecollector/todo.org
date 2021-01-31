@@ -3,6 +3,7 @@
 - [ ] Only accept unique titles
 - [ ] Accept 10 pairs of QA, 3 of them without any answer.
 - [ ] Save all occurrences, insert each one in a separate record automatically
+- [ ] Update model to make serialized data saner
 ** UI
 - [ ] Remove Pre. Occ. and Next Occ. buttons
 * Applied

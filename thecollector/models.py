@@ -10,6 +10,7 @@ class Data(DB.Model, SerializerMixin):
     answer_text = DB.Column(DB.String())
     answer_start = DB.Column(DB.Integer)
     answer_end = DB.Column(DB.Integer)
+    is_impossible = DB.Column(DB.Boolean)
 
     serialize_rules = (
         "-id",
@@ -25,4 +26,5 @@ class Data(DB.Model, SerializerMixin):
             "answer_start": [self.answer_start],
             "answer_end": [self.answer_end],
             "text": [self.answer_text],
+            "is_impossible": [bool(self.is_impossible)],
         }
