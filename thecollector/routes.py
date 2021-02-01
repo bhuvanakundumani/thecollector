@@ -16,16 +16,27 @@ import json
 def root():
     form = DataForm()
     if form.validate_on_submit():
-        DB.session.add(
-            Data(
-                title=form.title.data,
-                context=form.context.data,
-                question=form.question.data,
-                answer_text=form.answer_text.data,
-                answer_start=form.answer_start.data,
-                answer_end=form.answer_end.data,
+        for pair in form.answerables:
+            DB.session.add(
+                Data(
+                    title=form.title.data,
+                    context=form.context.data,
+                    question=pair.question.data,
+                    answer_text=pair.text.data,
+                    answer_start=pair.start.data,
+                    answer_end=pair.end.data,
+                    is_impossible=False,
+                )
             )
-        )
+        for pair in form.impossibles:
+            DB.session.add(
+                Data(
+                    title=form.title.data,
+                    context=form.context.data,
+                    question=pair.question.data,
+                    is_impossible=True,
+                )
+            )
         DB.session.commit()
         flash("Recorded", "success")
     return render_template("form.html", form=form)

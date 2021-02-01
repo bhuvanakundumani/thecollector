@@ -1,8 +1,29 @@
 from flask_wtf import FlaskForm
-from thecollector.validators import AnswerIndicesImplyContext, RelativeNumberRange
-from wtforms import SubmitField, StringField, TextAreaField
+from wtforms import SubmitField, StringField, TextAreaField, FormField, Form, FieldList
 from wtforms.widgets.html5 import NumberInput
-from wtforms.validators import DataRequired, Length
+from wtforms.validators import ValidationError, DataRequired, InputRequired, Length
+from thecollector.models import Data
+
+
+class NoAnswerForm(Form):
+    _index_widget = NumberInput(min=0)
+    question = StringField("Question", validators=[DataRequired()])
+
+
+class AnswerForm(NoAnswerForm):
+    _index_widget = NoAnswerForm._index_widget
+    question = NoAnswerForm.question
+    text = StringField("Answer", validators=[DataRequired()])
+    start = StringField(
+        "Start",
+        widget=_index_widget,
+        validators=[InputRequired()],
+    )
+    end = StringField(
+        "End",
+        widget=_index_widget,
+        validators=[InputRequired()],
+    )
 
 
 class DataForm(FlaskForm):
@@ -18,39 +39,38 @@ class DataForm(FlaskForm):
             DataRequired(),
         ],
     )
-    question = StringField("Question", validators=[DataRequired()])
-    answer_start = StringField(
-        "Start",
-        widget=NumberInput(min=0),
-        validators=[
-            RelativeNumberRange(
-                min=0,
-                max="context",
-                allow_empty=True,
-            ),
-        ],
+    answerables = FieldList(
+        FormField(AnswerForm),
+        min_entries=7,
+        max_entries=7,
     )
-    answer_end = StringField(
-        "End",
-        widget=NumberInput(min=0),
-        validators=[
-            RelativeNumberRange(
-                min="answer_start",
-                max="context",
-                exclusive=True,
-                allow_empty=True,
-            ),
-        ],
-    )
-    answer_text = StringField(
-        "Answer",
-        validators=[
-            AnswerIndicesImplyContext(
-                "context",
-                "answer_start",
-                "answer_end",
-                allow_empty=True,
-            ),
-        ],
+    impossibles = FieldList(
+        FormField(NoAnswerForm),
+        min_entries=3,
+        max_entries=3,
     )
     submit = SubmitField("Submit")
+
+    def validate_title(self, field):
+        if Data.query.filter_by(title=field.data).first():
+            raise ValidationError(
+                field.gettext(
+                    "The title is already available. Work on something else, perhaps?"
+                )
+            )
+
+    def validate(self):
+        if not FlaskForm.validate(self):
+            return False
+        is_valid = True
+        for pair in self.answerables:
+            if (
+                pair.text.data
+                != self.context.data[int(pair.start.data) : int(pair.end.data)]
+            ):
+                pair.text.errors.append(
+                    "Field must be equal to a slice from the start index"
+                    " to the end index of the context, %s." % self.context.name
+                )
+                is_valid = False
+        return is_valid
