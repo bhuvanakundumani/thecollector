@@ -2,7 +2,13 @@
 ** General
 - [ ] Update model to make serialized data saner
 - [ ] Cleanup extra imports and comments
+- [ ] JS validation doesn't work (on Chrome)
+- [ ] Optimize JS
 * Applied
+** r4
+- [X] Add character count indicator to the context
+- [X] Remove refresh keys
+- [X] Refresh all on submit
 ** r3
 - [X] Only accept unique titles
 - [X] Accept 10 pairs of QA, 3 of them without any answer.
@@ -20,12 +26,13 @@
 ** r0 (in init commit)
 - [X] Close dump database and its routes
 * Proposed
+- [ ] Tipline indicator overflows
 - [ ] Help border issues in Bootstrap group classes in RTL
 - [ ] Add a smart mechanism for jsonify download without writing it on the server.
 - [ ] Add a $DIR for form direction
 - [ ] Add a title search feature, listing some of the previous titles with a
   search feature
-- [ ] Move context to its own table
+- [ ] Move context to its own table OR make it self-referencing to another record
 - [ ] Add a guideline next to the form
 * +canceled+
 # - [ ] Make ZWNJ all spaces

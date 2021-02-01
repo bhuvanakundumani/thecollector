@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-    <form method="{{ method if method else 'POST' }}" action="{{ action if action else '' }}" autocomplete="off">
+    <form method="{{ method if method else 'POST' }}" action="{{ action if action else '' }}" autocomplete="off" id="dataform">
         {{ form.hidden_tag() }}
         <div class="input-group mb-3">
             {{ form.title.label(class="input-group-text") }}
@@ -27,6 +27,7 @@
             {% else %}
                 {{ form.context(placeholder="Some story here...", class="form-control h-auto") }}
             {% endif %}
+            <span class="input-group-text ltr"><sup id="contextcount">0</sup>&frasl;<sub>512</sub></span>
         </div>
         {% for pair in form.answerables %}
             {% set answer_feedback = "answer%sfeedback"%loop.index %}
@@ -59,7 +60,6 @@
                     <span class="input-group-text">Selected in context</span>
                     <span readonly class="form-control" id="tipline{{ loop.index }}"></span>
                     <button id="prev{{ loop.index }}" class="btn btn-outline-secondary" type="button">« Prev</button>
-                    <button id="refresh{{ loop.index }}" class="btn btn-outline-secondary" type="button">Refresh</button>
                     <button id="next{{ loop.index }}" class="btn btn-outline-secondary" type="button">Next »</button>
                 </div>
                 {% if pair.text.errors or pair.start.errors or pair.end.errors %}
@@ -106,19 +106,17 @@
 
 {% block scripts %}
     <script type="text/javascript">
-        // RTL switch
+        {# RTL switch #}
         let rtlbtn = document.getElementById('rtl');
         let html = document.querySelector('html');
-        document.addEventListener('DOMContentLoaded', function() {
-            if (html.getAttribute("dir") == "rtl") {
-                rtlbtn.setAttribute("aria-pressed", "true");
-                rtlbtn.classList.add("active");
-            } else {
-                html.setAttribute("dir", "ltr");
-                rtlbtn.setAttribute("aria-pressed", "false");
-                rtlbtn.classList.remove("active");
-            }
-        }, false);
+        if (html.getAttribute("dir") == "rtl") {
+            rtlbtn.setAttribute("aria-pressed", "true");
+            rtlbtn.classList.add("active");
+        } else {
+            html.setAttribute("dir", "ltr");
+            rtlbtn.setAttribute("aria-pressed", "false");
+            rtlbtn.classList.remove("active");
+        }
         rtlbtn.onclick = function() {
             if (rtlbtn.getAttribute("aria-pressed") == "true") {
                 html.setAttribute("dir", "ltr");
@@ -140,7 +138,7 @@
         let tiplines = document.querySelectorAll('span[id^="tipline"]');
         let prevs = document.querySelectorAll('button[id^="prev"]');
         let nexts = document.querySelectorAll('button[id^="next"]');
-        let refreshes = document.querySelectorAll('button[id^="refresh"]');
+        let context_count = document.getElementById('contextcount');
         {# occurrences is a 2D array like [i:[occurrences], i2:[occurrences], ..., n] where n is the lenght of answers. It holds indices of found answers in the context. #}
         let occurrences = [...Array(answer_fields.length)].map(e => Array());
 
@@ -177,10 +175,12 @@
             }
         }
 
-        let clear_form = function() {
-            tiplines.forEach(function(el) { el.innerHTML = ""; });
-            start_fields.forEach(function(el) { el.value = ""; });
-            end_fields.forEach(function(el) { el.value = ""; });
+        let refresh_form = function() {
+            answer_fields.forEach(function(el, id) {
+                update_tipline(id);
+                update_index(id);
+            });
+            context_count.innerHTML = context.value.length;
         }
 
         function revolve(ntimes, id) {
@@ -243,16 +243,16 @@
         }
 
         {# Binds #}
-        bind_anychange(context_field, clear_form);
+        bind_anychange(context_field, refresh_form);
         prevs.forEach(function(el, id) { bind_update_props(el, id, -1); });
         nexts.forEach(function(el, id) { bind_update_props(el, id, 1); });
-        refreshes.forEach(function(el, id) {
-            bind_update_props(el, id, 0);
-            update_index(id);
-        });
         answer_fields.forEach(function(el, id) { bind_anychange(el, function() { update_index(id); }); });
         start_fields.forEach(function(el, id) { bind_anychange(el, function() { update_answer(id); }); });
         end_fields.forEach(function(el, id) { bind_anychange(el, function() { update_answer(id); }); });
+        document.getElementById('dataform').onsubmit = function() {
+            refresh_form();
+            return true;
+        }
     </script>
 {% endblock scripts %}
 

@@ -17,6 +17,12 @@
             * {
                 border-radius: 0 !important;
             }
+            .rtl {
+                direction: rtl !important;
+            }
+            .ltr {
+                direction: ltr !important;
+            }
             {% block style %}{% endblock %}
         </style>
     </head>
@@ -39,14 +45,12 @@
         </div>
         <script type="text/javascript">
             // Disable scrolling on number fields
-            document.addEventListener('DOMContentLoaded', function() {
-                document.querySelectorAll("input[type='number']").forEach(function(i){
-                    i.addEventListener("wheel", function(event){
-                        event.preventDefault();
-                        // TODO redirect it back to the windows
-                    });
+            document.querySelectorAll("input[type='number']").forEach(function(i){
+                i.addEventListener("wheel", function(event){
+                    event.preventDefault();
+                    {# TODO redirect it back to the windows #}
                 });
-            }, false);
+            });
         </script>
 
         {# <script src="{{ url_for('static', filename='js/jquery.slim.min.js') }}"></script> <!-- TODO DELETE ME --> #}
