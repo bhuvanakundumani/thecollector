@@ -1,17 +1,33 @@
-* back
-- [ ] Add an smart mechanism for jsonify download without writing it on the server.
-# - [ ] Make ZWNJ all spaces
-# - [ ] Lock indices
-* ui
-- [ ] Increase context size
-- [ ] Clear question and answer after submit
-* db
-- [ ] Move context to its own table
-* r2
+* Upcoming
+** General
+- [ ] Update model to make serialized data saner
+- [ ] Cleanup extra imports and comments
+* Applied
+** r3
+- [X] Only accept unique titles
+- [X] Accept 10 pairs of QA, 3 of them without any answer.
+- [X] Help the miss-align Bootstrap groups
+- [X] Increase context size
+- [X] Make the form full-screen
+- [X] Force RTL/Make it default
+- [X] Fix typo: occurance -> occurrence
+** r2
 - [X] accept empty answer
 - [X] Set Context min=512
-* r1
+** r1
 - [X] Add CDNs
 - [X] Make Title required
-* r0 (in init commit)
+** r0 (in init commit)
 - [X] Close dump database and its routes
+* Proposed
+- [ ] Help border issues in Bootstrap group classes in RTL
+- [ ] Add a smart mechanism for jsonify download without writing it on the server.
+- [ ] Add a $DIR for form direction
+- [ ] Add a title search feature, listing some of the previous titles with a
+  search feature
+- [ ] Move context to its own table
+- [ ] Add a guideline next to the form
+* +canceled+
+# - [ ] Make ZWNJ all spaces
+# - [ ] Lock indices
+# - [ ] Clear question and answer after submit

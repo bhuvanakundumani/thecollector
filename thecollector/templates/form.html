@@ -2,11 +2,21 @@
 {% block content %}
     <form method="{{ method if method else 'POST' }}" action="{{ action if action else '' }}" autocomplete="off">
         {{ form.hidden_tag() }}
-        <div class="form-floating mb-3">
-            {{ form.title(placeholder="Optional title for your content...", class="form-control") }}
-            {{ form.title.label() }}
+        <div class="input-group mb-3">
+            {{ form.title.label(class="input-group-text") }}
+            {% if form.title.errors %}
+                {{ form.title(placeholder="(Wikipedia) Title for your content...", class="is-invalid form-control", aria_describedby="%sfeedback"%form.title.id) }}
+                <div id="{{ form.title.id }}feedback" class="d-block invalid-feedback">
+                    {% for error in form.title.errors %}
+                        <span>{{ error }}</span>&nbsp;
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.title(placeholder="(Wikipedia) Title for your content...", class="form-control") }}
+            {% endif %}
         </div>
-        <div class="form-floating mb-3">
+        <div class="input-group mb-3">
+            {{ form.context.label(class="input-group-text") }}
             {% if form.context.errors %}
                 {{ form.context(placeholder="Some story here...", class="is-invalid form-control h-auto", aria_describedby="%sfeedback"%form.context.id) }}
                 <div id="{{ form.context.id }}feedback" class="d-block invalid-feedback">
@@ -17,68 +27,78 @@
             {% else %}
                 {{ form.context(placeholder="Some story here...", class="form-control h-auto") }}
             {% endif %}
-            {{ form.context.label() }}
         </div>
-        <div class="form-floating mb-3">
-            {% if form.question.errors %}
-                {{ form.question(placeholder="What when happened?", class="is-invalid form-control", aria_describedby="%sfeedback"%form.question.id) }}
-                <div id="{{ form.question.id }}feedback" class="d-block invalid-feedback">
-                    {% for error in form.question.errors %}
-                        <span>{{ error }}</span>&nbsp;
-                    {% endfor %}
+        {% for pair in form.answerables %}
+            {% set answer_feedback = "answer%sfeedback"%loop.index %}
+            <div class="mt-3 pb-3 px-3 pt-1 border">
+                <span>Pair #{{ loop.index }}</span>
+                <div class="input-group mb-1 mt-2">
+                    {{ pair.question.label(class="input-group-text") }}
+                    {% if pair.question.errors %}
+                        {{ pair.question(placeholder="What when happened?", class="is-invalid form-control", aria_describedby="%sfeedback"%pair.question.id) }}
+                        <div id="{{ pair.question.id }}feedback" class="d-block invalid-feedback">
+                            {% for error in pair.question.errors %}
+                                <span>{{ error }}</span>&nbsp;
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ pair.question(placeholder="What when happened?", class="form-control") }}
+                    {% endif %}
                 </div>
-            {% else %}
-                {{ form.question(placeholder="What when happened?", class="form-control") }}
-            {% endif %}
-            {{ form.question.label() }}
-        </div>
-        <div class="mb-3">
-            <div class="form-floating">
-                {% if form.answer_text.errors %}
-                    {{ form.answer_text(placeholder="This is when what happened.", class="is-invalid form-control square-bottom border-bottom-0", aria_describedby="answersfeedback") }}
-                {% else %}
-                    {{ form.answer_text(placeholder="What when happened?", class="form-control square-bottom border-bottom-0") }}
-                {% endif %}
-                {{ form.answer_text.label() }}
-            </div>
-            <div class="input-group flat-top">
-                {{ form.answer_start.label(class="input-group-text square-top-left") }}
-                {% if form.answer_start.errors %}
-                    {{ form.answer_start(placeholder="9", class="is-invalid form-control", aria_describedby="answersfeedback") }}
-                {% else %}
-                    {{ form.answer_start(placeholder="9", class="form-control") }}
-                {% endif %}
-                {{ form.answer_end.label(class="input-group-text") }}
-                {% if form.answer_start.errors %}
-                    {{ form.answer_end(placeholder="42", class="is-invalid form-control square-top-right", aria_describedby="answersfeedback") }}
-                {% else %}
-                    {{ form.answer_end(placeholder="42", class="form-control square-top-right") }}
-                {% endif %}
-            </div>
-            {% if form.answer_text.errors or form.answer_start.errors or form.answer_end.errors %}
-                <div id="answersfeedback" class="d-block invalid-feedback">
-                    {% for error in form.answer_text.errors %}
-                        <span>{{ error }}</span>&nbsp;
-                    {% endfor %}
-                    {% for error in form.answer_start.errors %}
-                        <span>{{ error }}</span>&nbsp;
-                    {% endfor %}
-                    {% for error in form.answer_end.errors %}
-                        <span>{{ error }}</span>&nbsp;
-                    {% endfor %}
+                <div class="input-group mb-1">
+                    {{ pair.text.label(class="input-group-text") }}
+                    {{ pair.text(placeholder="This is when what happened.", class="form-control" + (" is-invalid" if pair.text.errors else ""), aria_describedby=answer_feedback) }}
                 </div>
-            {% endif %}
-        </div>
-        <div class="btn-group btn-group-lg d-flex" role="group">
-            {{ form.submit(class="btn btn-success px-max") }}
-            <div class="btn-group btn-group-lg d-flex" role="group">
-                <button id="prev" type="button" class="btn btn-primary" data-bs-toggle="button" aria-pressed="false">Pre. occ.</button>
-                <button id="next" type="button" class="btn btn-primary" data-bs-toggle="button" aria-pressed="false">Next occ.</button>
+                <div class="input-group mb-1">
+                    {{ pair.start.label(class="input-group-text") }}
+                    {{ pair.start(placeholder="9", class="form-control" + (" is-invalid" if pair.start.errors else "") , aria_describedby=answer_feedback) }}
+                    {{ pair.end.label(class="input-group-text") }}
+                    {{ pair.end(placeholder="42", class="form-control" + (" is-invalid" if pair.end.errors else "") , aria_describedby=answer_feedback) }}
+                </div>
+                <div class="input-group input-group-sm">
+                    <span class="input-group-text">Selected in context</span>
+                    <span readonly class="form-control" id="tipline{{ loop.index }}"></span>
+                    <button id="prev{{ loop.index }}" class="btn btn-outline-secondary" type="button">« Prev</button>
+                    <button id="refresh{{ loop.index }}" class="btn btn-outline-secondary" type="button">Refresh</button>
+                    <button id="next{{ loop.index }}" class="btn btn-outline-secondary" type="button">Next »</button>
+                </div>
+                {% if pair.text.errors or pair.start.errors or pair.end.errors %}
+                    <div id="{{ answer_feedback }}" class="d-block invalid-feedback">
+                        {% for error in pair.text.errors %}
+                            <span>{{ error }}</span>&nbsp;
+                        {% endfor %}
+                        {% for error in pair.start.errors %}
+                            <span>{{ error }}</span>&nbsp;
+                        {% endfor %}
+                        {% for error in pair.end.errors %}
+                            <span>{{ error }}</span>&nbsp;
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </div>
+        {% endfor %}
+        <div class="mt-3 pb-3 px-3 pt-1 border">
+            <span>Impossible questions</span>
+            {% for pair in form.impossibles %}
+                {% set feedback = "answer%sfeedback"%loop.index %}
+                    <div class="input-group mb-2 mt-2">
+                        {{ pair.question.label(class="input-group-text", text="{} #{}".format(pair.question.label.text, loop.index)) }}
+                        {% if pair.question.errors %}
+                            {{ pair.question(placeholder="What when happened?", class="is-invalid form-control", aria_describedby=feedback) }}
+                            <div id="{{ feedback }}" class="d-block invalid-feedback">
+                                {% for error in pair.question.errors %}
+                                    <span>{{ error }}</span>&nbsp;
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ pair.question(placeholder="What when happened?", class="form-control") }}
+                        {% endif %}
+                    </div>
+            {% endfor %}
         </div>
-        <span id="tip" class="text-muted d-none my-2">tip: selected <em id="tipline"></em></span>
+        {{ form.submit(class="btn btn-lg btn-success px-max mt-3 w-100") }}
     </form>
-    <div class="my-5">
+    <div class="my-4">
         {# <a href="{{ url_for('dump') }}" class="btn btn-info w-100 mb-3">Dump Database</a> #}
         <button id="rtl" type="button" class="btn btn-secondary float-end" data-bs-toggle="button" autocomplete="off" aria-pressed="false">Toggle RTL</button>
     </div>
@@ -88,20 +108,45 @@
     <script type="text/javascript">
         // RTL switch
         let rtlbtn = document.getElementById('rtl');
+        let html = document.querySelector('html');
+        document.addEventListener('DOMContentLoaded', function() {
+            if (html.getAttribute("dir") == "rtl") {
+                rtlbtn.setAttribute("aria-pressed", "true");
+                rtlbtn.classList.add("active");
+            } else {
+                html.setAttribute("dir", "ltr");
+                rtlbtn.setAttribute("aria-pressed", "false");
+                rtlbtn.classList.remove("active");
+            }
+        }, false);
         rtlbtn.onclick = function() {
             if (rtlbtn.getAttribute("aria-pressed") == "true") {
-                document.querySelector('html').setAttribute("dir", "ltr");
+                html.setAttribute("dir", "ltr");
                 rtlbtn.setAttribute("aria-pressed", "false");
                 rtlbtn.classList.remove("active");
             } else {
-                document.querySelector('html').setAttribute("dir", "rtl");
+                html.setAttribute("dir", "rtl");
                 rtlbtn.setAttribute("aria-pressed", "true");
                 rtlbtn.classList.add("active");
             }
         }
+    </script>
+    <script type="text/javascript">
+        {#  Global elements #}
+        let context_field = document.getElementById('{{ form.context.id }}');
+        let answer_fields = document.querySelectorAll('input[id^="{{ form.answerables.id }}"][id$="text"]');
+        let start_fields = document.querySelectorAll('input[id^="{{ form.answerables.id }}"][id$="start"]');
+        let end_fields = document.querySelectorAll('input[id^="{{ form.answerables.id }}"][id$="end"]');
+        let tiplines = document.querySelectorAll('span[id^="tipline"]');
+        let prevs = document.querySelectorAll('button[id^="prev"]');
+        let nexts = document.querySelectorAll('button[id^="next"]');
+        let refreshes = document.querySelectorAll('button[id^="refresh"]');
+        {# occurrences is a 2D array like [i:[occurrences], i2:[occurrences], ..., n] where n is the lenght of answers. It holds indices of found answers in the context. #}
+        let occurrences = [...Array(answer_fields.length)].map(e => Array());
 
-        // Helper function for string search
+        {# Functions #}
         function getIndicesOf(searchStr, str, caseSensitive) {
+            {# Helper function for string search #}
             var searchStrLen = searchStr.length;
             if (searchStrLen == 0) {
                 return [];
@@ -117,120 +162,97 @@
             }
             return indices;
         }
-     
-        // Global Index helper
-        let context_field = document.getElementById('{{ form.context.id }}');
-        let answer_field = document.getElementById('{{ form.answer_text.id }}');
-        let start_field = document.getElementById('{{ form.answer_start.id }}');
-        let end_field = document.getElementById('{{ form.answer_end.id }}');
-        let tip = document.getElementById('tip');
-        let tipline = document.getElementById('tipline');
-        let occurances = [];  // holds indices of found answers in the context
 
-        update_answer_requirements = function() {
-            if (
-                (answer_field.value == null || answer_field.value == "") &&
-                (start_field.value == null || start_field.value == "") &&
-                (end_field.value == null || end_field.value == "")
-            ) {
-                answer_field.removeAttribute("required");
-                start_field.removeAttribute("required");
-                end_field.removeAttribute("required");
-            } else {
-                answer_field.setAttribute("required", true);
-                start_field.setAttribute("required", true);
-                end_field.setAttribute("required", true);
-            }
-        }
-
-        update_tipline = function() {
-            let i = Number(start_field.value);
-            let j = Number(end_field.value);
+        function update_tipline(id) {
+            let i = Number(start_fields[id].value);
+            let j = Number(end_fields[id].value);
             let text = context.value.substring(i, j);
-            if (text == "")
-                tip.classList.add("d-none");
-            else {
+            if (text != "") {
                 text = context.value.substring(i-30, i) + "<mark>" + text + "</mark>" + context.value.substring(j, j+30);
-                if (i-50 > 0) text = "..." + text;
-                if (context.value.length > j+50) text = text + "...";
-                tipline.innerHTML = text;
-                tip.classList.remove("d-none");
+                if (i-50 > 0)
+                    text = "..." + text;
+                if (context.value.length > j+50)
+                    text = text + "...";
+                tiplines[id].innerHTML = text;
             }
         }
 
-        // Switch to the next or prev occurance
-        function revolve(n) {
-            let i = occurances.indexOf(Number(start_field.value));
+        let clear_form = function() {
+            tiplines.forEach(function(el) { el.innerHTML = ""; });
+            start_fields.forEach(function(el) { el.value = ""; });
+            end_fields.forEach(function(el) { el.value = ""; });
+        }
+
+        function revolve(ntimes, id) {
+            {# Switch to the next or prev occurrence #}
+            let i = occurrences[id].indexOf(Number(start_fields[id].value));
             if (i != -1) {
-                i = i + n;
-                i = occurances[i];
+                i = i + ntimes;
+                i = occurrences[id][i];
                 if (typeof i != "undefined") {
-                    start_field.value = i;
-                    end_field.value = Number(i) + answer_field.value.length;
+                    start_fields[id].value = i;
+                    end_fields[id].value = Number(i) + answer_fields[id].value.length;
                 }
             }
         }
-        document.getElementById('prev').onclick = function() {
-            revolve(-1);
-            update_tipline();
-        }
-        document.getElementById('next').onclick = function() {
-            revolve(1);
-            update_tipline();
-        }
 
-        let update_occurances = function() {
-            occurances = getIndicesOf(answer_field.value, context_field.value);
-            update_tipline();
-        }
-        context_field.onchange  = update_occurances;
-        context_field.onkeydown = update_occurances;
-        context_field.onpaste   = update_occurances;
-        context_field.oninput   = update_occurances;
-
-        // Find indexes when answer gets updated
-        update_index = function() {
-            update_occurances();
-            if (occurances.length < 0) {
-                start_field.value = "";
-                end_field.value = "";
+        function update_index(id) {
+            {# Find indexes when answer gets updated #}
+            occurrences[id] = getIndicesOf(answer_fields[id].value, context_field.value);
+            if (occurrences[id].length < 0) {
+                start_fields[id].value = "";
+                end_fields[id].value = "";
             } else {
-                let i = Number(occurances[0]);
-                start_field.value = i;
-                end_field.value = i + answer_field.value.length;
+                let i = Number(occurrences[id][0]);
+                start_fields[id].value = i;
+                end_fields[id].value = i + answer_fields[id].value.length;
             }
-            update_tipline();
-            update_answer_requirements();
+            update_tipline(id);
         }
-        answer_field.onchange  = update_index;
-        answer_field.onkeydown = update_index;
-        answer_field.onpaste   = update_index;
-        answer_field.oninput   = update_index;
 
-        // Update answer when answer gets updated
-        update_answer = function() {
-            end_field.setAttribute("min", start_field.value); 
-
-            if (end_field.value.length > 2 && end_field.value <= start_field.value)
-                end_field.value = Number(start_field.value) + 1;
-            else if (end_field.value.length > 2 && end_field.value < end_field.getAttribute("min"))
-                end_field.value = end_field.getAttribute("min");
-            else if (end_field.value > context_field.value.length)
-                end_field.value = context_field.value.length;
-            if (Number(start_field.value) - Number(end_field.value) != 0)
-                answer_field.value = context_field.value.substring(start_field.value, end_field.value);
-
-            update_tipline();
-            update_answer_requirements();
+        function update_answer(id) {
+            {# Order is very important for the conditions here #}
+            end_fields[id].setAttribute("min", start_fields[id].value);
+            if (end_fields[id].value.length > 2 && end_fields[id].value <= start_fields[id].value)
+                end_fields[id].value = Number(start_fields[id].value) + 1;
+            else if (end_fields[id].value.length > 2 && end_fields[id].value < end_fields[id].getAttribute("min"))
+                end_fields[id].value = end_fields[id].getAttribute("min");
+            else if (end_fields[id].value > context_field.value.length)
+                end_fields[id].value = context_field.value.length;
+            if (Number(start_fields[id].value) - Number(end_fields[id].value) != 0)
+                answer_fields[id].value = context_field.value.substring(start_fields[id].value, end_fields[id].value);
+            if (end_fields[id].value == "0")
+                start_fields[id].value = 0;
+            else if (!(end_fields[id].value == "" || end_fields[id].value == null) && start_fields[id].value >= end_fields[id].value)
+                start_fields[id].value = Number(end_fields[id].value) - 1;
+            update_tipline(id);
         }
-        start_field.onchange  = update_answer;
-        start_field.onkeydown = update_answer;
-        start_field.onpaste   = update_answer;
-        start_field.oninput   = update_answer;
-        end_field.onchange  = update_answer;
-        end_field.onkeydown = update_answer;
-        end_field.onpaste   = update_answer;
-        end_field.oninput   = update_answer;
+
+        function bind_anychange(el, func) {
+            el.onchange = func;
+            el.onkeydown = func;
+            el.onpaste = func;
+            el.oninput = func;
+        }
+
+        function bind_update_props(el, id, step) {
+            el.onclick = function() {
+                revolve(step, id);
+                update_tipline(id);
+            }
+        }
+
+        {# Binds #}
+        bind_anychange(context_field, clear_form);
+        prevs.forEach(function(el, id) { bind_update_props(el, id, -1); });
+        nexts.forEach(function(el, id) { bind_update_props(el, id, 1); });
+        refreshes.forEach(function(el, id) {
+            bind_update_props(el, id, 0);
+            update_index(id);
+        });
+        answer_fields.forEach(function(el, id) { bind_anychange(el, function() { update_index(id); }); });
+        start_fields.forEach(function(el, id) { bind_anychange(el, function() { update_answer(id); }); });
+        end_fields.forEach(function(el, id) { bind_anychange(el, function() { update_answer(id); }); });
     </script>
 {% endblock scripts %}
 
@@ -241,6 +263,10 @@
     .square-top {
         border-top-right-radius: 0;
         border-top-left-radius: 0;
+    }
+    html[dir="rtl"] .input-group,
+    html[dir="rtl"] .btn-group {
+        padding-left: 1px;
     }
     html[dir="rtl"] .square-top-right {
         border-top-left-radius: 0;
