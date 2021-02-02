@@ -176,6 +176,7 @@
         }
 
         let refresh_form = function() {
+            context.value = context.value.replace(/\s?\n/g, " ");
             answer_fields.forEach(function(el, id) {
                 update_tipline(id);
                 update_index(id);
@@ -198,6 +199,7 @@
 
         function update_index(id) {
             {# Find indexes when answer gets updated #}
+            answer_fields[id].value = answer_fields[id].value.trim();
             occurrences[id] = getIndicesOf(answer_fields[id].value, context_field.value);
             if (occurrences[id].length < 0) {
                 start_fields[id].value = "";
