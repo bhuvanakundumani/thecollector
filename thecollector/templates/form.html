@@ -59,7 +59,7 @@
                 <div class="input-group input-group-sm">
                     <span class="input-group-text">Selected in context</span>
                     <span readonly class="form-control" id="tipline{{ loop.index }}"></span>
-                    <button id="prev{{ loop.index }}" class="btn btn-outline-secondary" type="button">« Prev</button>
+                    <button id="prev{{ loop.index }}" class="btn btn-outline-secondary" type="button">« Pre</button>
                     <button id="next{{ loop.index }}" class="btn btn-outline-secondary" type="button">Next »</button>
                 </div>
                 {% if pair.text.errors or pair.start.errors or pair.end.errors %}
@@ -199,7 +199,6 @@
 
         function update_index(id) {
             {# Find indexes when answer gets updated #}
-            answer_fields[id].value = answer_fields[id].value.trim();
             occurrences[id] = getIndicesOf(answer_fields[id].value, context_field.value);
             if (occurrences[id].length < 0) {
                 start_fields[id].value = "";
@@ -248,7 +247,17 @@
         bind_anychange(context_field, refresh_form);
         prevs.forEach(function(el, id) { bind_update_props(el, id, -1); });
         nexts.forEach(function(el, id) { bind_update_props(el, id, 1); });
-        answer_fields.forEach(function(el, id) { bind_anychange(el, function() { update_index(id); }); });
+        answer_fields.forEach(function(el, id) {
+            let agg = function() { update_index(id); }
+            el.onkeydown = agg;
+            el.oninput = agg;
+            agg = function() {
+                update_index(id);
+                answer_fields[id].value = answer_fields[id].value.trim();
+            }
+            el.onchange = agg;
+            el.onpaste = agg;
+        });
         start_fields.forEach(function(el, id) { bind_anychange(el, function() { update_answer(id); }); });
         end_fields.forEach(function(el, id) { bind_anychange(el, function() { update_answer(id); }); });
         document.getElementById('dataform').onsubmit = function() {

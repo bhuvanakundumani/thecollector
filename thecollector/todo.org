@@ -1,10 +1,21 @@
+# Hotfixes are fixes applied while the site is online, without much of a change,
+# mostly bug fixes.
+# "r"s are Revisions, usually have major changes and may require a database reformat.
 * Upcoming
+** Hots (do them fast)
+- [ ] Extend the form session
 ** General
 - [ ] Update model to make serialized data saner
 - [ ] Cleanup extra imports and comments
 - [ ] JS validation doesn't work (on Chrome)
-- [ ] Optimize JS
+- [ ] Check title with JS before filling the form
 * Applied
+** Hotfix2
+- [X] Make "Prev" button smaller.
+- [X] Prevent "cannot insert spaces" in answer fields.
+- [X] Delete the previous data from the form after submission.
+** Hotfix1
+- [X] Fix the newline bug in context which causes "index not found".
 ** r4
 - [X] Add character count indicator to the context
 - [X] Remove refresh keys
@@ -30,10 +41,9 @@
 - [ ] Help border issues in Bootstrap group classes in RTL
 - [ ] Add a smart mechanism for jsonify download without writing it on the server.
 - [ ] Add a $DIR for form direction
-- [ ] Add a title search feature, listing some of the previous titles with a
-  search feature
 - [ ] Move context to its own table OR make it self-referencing to another record
 - [ ] Add a guideline next to the form
+- [ ] Optimize JS
 * +canceled+
 # - [ ] Make ZWNJ all spaces
 # - [ ] Lock indices

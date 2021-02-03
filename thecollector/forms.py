@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import SubmitField, StringField, TextAreaField, FormField, Form, FieldList
 from wtforms.widgets.html5 import NumberInput
 from wtforms.validators import ValidationError, DataRequired, InputRequired, Length
+from thecollector import DB
 from thecollector.models import Data
 
 
@@ -63,6 +64,8 @@ class DataForm(FlaskForm):
         if not FlaskForm.validate(self):
             return False
         is_valid = True
+        # Check answer indices, their availability in the context,
+        # and if they match with the typed answer.
         for pair in self.answerables:
             if (
                 pair.text.data
@@ -73,4 +76,56 @@ class DataForm(FlaskForm):
                     " to the end index of the context, %s." % self.context.name
                 )
                 is_valid = False
+        # Check questions uniqueness
+        # Since it does not matter much, it is disabled by default
+        # both = [*self.answerables, *self.impossibles]
+        # r_both = range(len(both))
+        # for i in r_both:
+        #     for j in r_both:
+        #         if i != j and both[i].question == both[j].question:
+        #             both[i].question.errors.append(
+        #                 "Use unique questions; Question "
+        #                 "{} is the same as {}.".format(both[i].question, both[j].question)
+        #             )
+        #             is_valid = False
         return is_valid
+
+    def commit(self, nullify=False):
+        for pair in self.answerables:
+            DB.session.add(
+                Data(
+                    title=self.title.data,
+                    context=self.context.data,
+                    question=pair.question.data,
+                    answer_text=pair.text.data,
+                    answer_start=pair.start.data,
+                    answer_end=pair.end.data,
+                    is_impossible=False,
+                )
+            )
+        for pair in self.impossibles:
+            DB.session.add(
+                Data(
+                    title=self.title.data,
+                    context=self.context.data,
+                    question=pair.question.data,
+                    is_impossible=True,
+                )
+            )
+        try:
+            DB.session.commit()
+        except Exception as e:
+            raise e
+        else:
+            # This else clause ensures data security for the client in case the
+            # commition fails.
+            if nullify:
+                for pair in self.answerables:
+                    pair.question.data = None
+                    pair.text.data = None
+                    pair.start.data = None
+                    pair.end.data = None
+                for pair in self.impossibles:
+                    pair.question.data = None
+                self.title.data = None
+                self.context.data = None
