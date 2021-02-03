@@ -1,5 +1,7 @@
 {% extends "layout.html" %}
+{% set title = "Form" %}
 {% block content %}
+    <a href="{{ url_for('guideline') }}" class="btn btn-info w-100 mb-3">Guideline</a>
     <form method="{{ method if method else 'POST' }}" action="{{ action if action else '' }}" autocomplete="off" id="dataform">
         {{ form.hidden_tag() }}
         <div class="input-group mb-3">
@@ -39,7 +41,7 @@
                         {{ pair.question(placeholder="What when happened?", class="is-invalid form-control", aria_describedby="%sfeedback"%pair.question.id) }}
                         <div id="{{ pair.question.id }}feedback" class="d-block invalid-feedback">
                             {% for error in pair.question.errors %}
-                                <span>{{ error }}</span>&nbsp;
+                                <span>{{ error }}&nbsp;</span>
                             {% endfor %}
                         </div>
                     {% else %}
@@ -65,13 +67,13 @@
                 {% if pair.text.errors or pair.start.errors or pair.end.errors %}
                     <div id="{{ answer_feedback }}" class="d-block invalid-feedback">
                         {% for error in pair.text.errors %}
-                            <span>{{ error }}</span>&nbsp;
+                            <span>{{ error }}&nbsp;</span>
                         {% endfor %}
                         {% for error in pair.start.errors %}
-                            <span>{{ error }}</span>&nbsp;
+                            <span>{{ error }}&nbsp;</span>
                         {% endfor %}
                         {% for error in pair.end.errors %}
-                            <span>{{ error }}</span>&nbsp;
+                            <span>{{ error }}&nbsp;</span>
                         {% endfor %}
                     </div>
                 {% endif %}
@@ -87,7 +89,7 @@
                             {{ pair.question(placeholder="What when happened?", class="is-invalid form-control", aria_describedby=feedback) }}
                             <div id="{{ feedback }}" class="d-block invalid-feedback">
                                 {% for error in pair.question.errors %}
-                                    <span>{{ error }}</span>&nbsp;
+                                    <span>{{ error }}&nbsp;</span>
                                 {% endfor %}
                             </div>
                         {% else %}
@@ -99,7 +101,6 @@
         {{ form.submit(class="btn btn-lg btn-success px-max mt-3 w-100") }}
     </form>
     <div class="my-4">
-        {# <a href="{{ url_for('dump') }}" class="btn btn-info w-100 mb-3">Dump Database</a> #}
         <button id="rtl" type="button" class="btn btn-secondary float-end" data-bs-toggle="button" autocomplete="off" aria-pressed="false">Toggle RTL</button>
     </div>
 {% endblock content %}

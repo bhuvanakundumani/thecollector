@@ -1,15 +1,20 @@
 # Hotfixes are fixes applied while the site is online, without much of a change,
-# mostly bug fixes.
+# mostly bug fixes. There is absolutely no new feature in a Hotfix.
 # "r"s are Revisions, usually have major changes and may require a database reformat.
+# "m"s are other minor commits, hotfixes that nobody asked for.
 * Upcoming
 ** Hots (do them fast)
-- [ ] Extend the form session
 ** General
+- [ ] Fix "double application to get to record" bug (probable solution: Extend
+  the form session)
 - [ ] Update model to make serialized data saner
-- [ ] Cleanup extra imports and comments
 - [ ] JS validation doesn't work (on Chrome)
 - [ ] Check title with JS before filling the form
 * Applied
+** r5
+- [X] Add a guideline next to the form
+- [X] Make templates accept title blocks
+- [X] Cleanup extra imports and comments
 ** Hotfix2
 - [X] Make "Prev" button smaller.
 - [X] Prevent "cannot insert spaces" in answer fields.
@@ -40,9 +45,9 @@
 - [ ] Tipline indicator overflows
 - [ ] Help border issues in Bootstrap group classes in RTL
 - [ ] Add a smart mechanism for jsonify download without writing it on the server.
+- [ ] Add a $APPNAME for the layout
 - [ ] Add a $DIR for form direction
 - [ ] Move context to its own table OR make it self-referencing to another record
-- [ ] Add a guideline next to the form
 - [ ] Optimize JS
 * +canceled+
 # - [ ] Make ZWNJ all spaces

@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>The form</title>
+        <title> The collector{% if title %} | {{ title }}{% endif %}</title>
         <meta name="author" content="M. Yas. Davoodeh">
         {# <meta name="description" content=""> #}
 
@@ -30,6 +30,7 @@
         <div class="container">
             <div class="row min-vh-100 py-3 align-items-center">
                 <div class="col m-auto">
+                    {% if title %}<h1>{{ title }}</h1>{% endif %}
                     {% with messages = get_flashed_messages(with_categories=True) %}
                         {% if messages %}
                             {% for category, message in messages %}
