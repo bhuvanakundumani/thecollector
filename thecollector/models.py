@@ -1,16 +1,16 @@
-from thecollector import DB
+from thecollector import db
 from sqlalchemy_serializer import SerializerMixin
 
 
-class Data(DB.Model, SerializerMixin):
-    id = DB.Column(DB.Integer, primary_key=True)
-    title = DB.Column(DB.String())
-    context = DB.Column(DB.Text)
-    question = DB.Column(DB.String())
-    answer_text = DB.Column(DB.String())
-    answer_start = DB.Column(DB.Integer)
-    answer_end = DB.Column(DB.Integer)
-    is_impossible = DB.Column(DB.Boolean)
+class Data(db.Model, SerializerMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String())
+    context = db.Column(db.Text)
+    question = db.Column(db.String())
+    answer_text = db.Column(db.String())
+    answer_start = db.Column(db.Integer)
+    answer_end = db.Column(db.Integer)
+    is_impossible = db.Column(db.Boolean)
 
     serialize_rules = (
         "-id",

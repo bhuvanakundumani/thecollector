@@ -1,0 +1,97 @@
+# Translations template for the project
+# Copyright (C) 2021
+# This file is distributed under the same license as the project.
+# Mahdi Safarian <ma.hiccup@gmail.com>, 2021.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Report-Msgid-Bugs-To: MYDavoodeh@gmail.com\n"
+"POT-Creation-Date: 2021-02-05 05:15+0330\n"
+"Last-Translator: M. Yas. Davoodeh <MYDavoodeh@gmail.com>\n"
+"Language-Team: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.0\n"
+
+#: forms.py:12
+msgid "Question"
+msgstr ""
+
+#: forms.py:18
+msgid "Answer"
+msgstr ""
+
+#: forms.py:20
+msgid "Start"
+msgstr ""
+
+#: forms.py:25
+msgid "End"
+msgstr ""
+
+#: forms.py:32
+msgid "Title"
+msgstr ""
+
+#: forms.py:34
+msgid "Context"
+msgstr ""
+
+#: forms.py:54
+msgid "Submit"
+msgstr ""
+
+#: forms.py:59
+msgid "The title is already recorded. Work on something else, perhaps?"
+msgstr ""
+
+#: routes.py:29
+msgid "Recorded"
+msgstr ""
+
+#: templates/form.html:2
+msgid "The form"
+msgstr ""
+
+#: templates/form.html:4
+msgid "Guideline"
+msgstr ""
+
+#: templates/form.html:7
+msgid "Also available in"
+msgstr ""
+
+#: templates/form.html:20 templates/form.html:27
+msgid "(Wikipedia) Title for your content..."
+msgstr ""
+
+#: templates/form.html:33 templates/form.html:40
+msgid "Some story here..."
+msgstr ""
+
+#: templates/form.html:47
+msgid "Pair"
+msgstr ""
+
+#: templates/form.html:72
+msgid "Selected in the context"
+msgstr ""
+
+#: templates/form.html:74
+msgid "Pre"
+msgstr ""
+
+#: templates/form.html:75
+msgid "Next"
+msgstr ""
+
+#: templates/form.html:93
+msgid "Impossible questions"
+msgstr ""
+
+#: templates/form.html:114
+msgid "Toggle direction"
+msgstr ""
+

@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% set title = "Guideline" %}
+{% set title = _("Guideline") %}
 {% block content %}
 
 {# راستچین #}
@@ -108,5 +108,5 @@
         </ul>
     </li>
 </ul>
-<a href="{{ url_for('form') }}" class="btn btn-primary w-100 mb-3">The form</a>
+<a href="{{ url_for('form') }}" class="btn btn-primary w-100 mb-3">{{ _("The form") }}</a>
 {% endblock content %}

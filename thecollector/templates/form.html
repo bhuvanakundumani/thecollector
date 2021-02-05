@@ -1,68 +1,75 @@
 {% extends "layout.html" %}
-{% set title = "Form" %}
+{% set title = _('The form') %}
 {% block content %}
-    <a href="{{ url_for('guideline') }}" class="btn btn-info w-100 mb-3">Guideline</a>
+<div class="btn-group mb-3 w-100" role="group">
+    <a href="{{ url_for('guideline') }}" class="btn btn-info">{{ _('Guideline') }}</a>
+    <div class="d-flex">
+        <button id="rtl" type="button" class="btn btn-secondary" data-bs-toggle="button" autocomplete="off" aria-pressed="false">{{ _("Toggle direction") }}</button>
+    </div>
+</div>
     <form method="{{ method if method else 'POST' }}" action="{{ action if action else '' }}" autocomplete="off" id="dataform">
         {{ form.hidden_tag() }}
         <div class="input-group mb-3">
             {{ form.title.label(class="input-group-text") }}
             {% if form.title.errors %}
-                {{ form.title(placeholder="(Wikipedia) Title for your content...", class="is-invalid form-control", aria_describedby="%sfeedback"%form.title.id) }}
+                {{ form.title(placeholder=_("(Wikipedia) Title for your content..."), class="is-invalid form-control", aria_describedby="%sfeedback"%form.title.id) }}
                 <div id="{{ form.title.id }}feedback" class="d-block invalid-feedback">
                     {% for error in form.title.errors %}
                         <span>{{ error }}</span>&nbsp;
                     {% endfor %}
                 </div>
             {% else %}
-                {{ form.title(placeholder="(Wikipedia) Title for your content...", class="form-control") }}
+                {{ form.title(placeholder=_("(Wikipedia) Title for your content..."), class="form-control") }}
             {% endif %}
         </div>
         <div class="input-group mb-3">
             {{ form.context.label(class="input-group-text") }}
             {% if form.context.errors %}
-                {{ form.context(placeholder="Some story here...", class="is-invalid form-control h-auto", aria_describedby="%sfeedback"%form.context.id) }}
+                {{ form.context(placeholder=_("Some story here..."), class="is-invalid form-control h-auto", aria_describedby="%sfeedback"%form.context.id) }}
                 <div id="{{ form.context.id }}feedback" class="d-block invalid-feedback">
                     {% for error in form.context.errors %}
                         <span>{{ error }}</span>&nbsp;
                     {% endfor %}
                 </div>
             {% else %}
-                {{ form.context(placeholder="Some story here...", class="form-control h-auto") }}
+                {{ form.context(placeholder=_("Some story here..."), class="form-control h-auto") }}
             {% endif %}
-            <span class="input-group-text ltr"><sup id="contextcount">0</sup>&frasl;<sub>512</sub></span>
+            {% if form.context.render_kw.minlength %}
+                <span class="input-group-text ltr"><sup id="contextcount">0</sup>&frasl;<sub>{{ form.context.render_kw.minlength }}</sub></span>
+            {% endif %}
         </div>
         {% for pair in form.answerables %}
             {% set answer_feedback = "answer%sfeedback"%loop.index %}
             <div class="mt-3 pb-3 px-3 pt-1 border">
-                <span>Pair #{{ loop.index }}</span>
+                <span>{{ _("Pair") }} #{{ loop.index }}</span>
                 <div class="input-group mb-1 mt-2">
                     {{ pair.question.label(class="input-group-text") }}
                     {% if pair.question.errors %}
-                        {{ pair.question(placeholder="What when happened?", class="is-invalid form-control", aria_describedby="%sfeedback"%pair.question.id) }}
+                        {{ pair.question(class="is-invalid form-control", aria_describedby="%sfeedback"%pair.question.id) }}
                         <div id="{{ pair.question.id }}feedback" class="d-block invalid-feedback">
                             {% for error in pair.question.errors %}
                                 <span>{{ error }}&nbsp;</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ pair.question(placeholder="What when happened?", class="form-control") }}
+                        {{ pair.question(class="form-control") }}
                     {% endif %}
                 </div>
                 <div class="input-group mb-1">
                     {{ pair.text.label(class="input-group-text") }}
-                    {{ pair.text(placeholder="This is when what happened.", class="form-control" + (" is-invalid" if pair.text.errors else ""), aria_describedby=answer_feedback) }}
+                    {{ pair.text(class="form-control" + (" is-invalid" if pair.text.errors else ""), aria_describedby=answer_feedback) }}
                 </div>
                 <div class="input-group mb-1">
                     {{ pair.start.label(class="input-group-text") }}
-                    {{ pair.start(placeholder="9", class="form-control" + (" is-invalid" if pair.start.errors else "") , aria_describedby=answer_feedback) }}
+                    {{ pair.start(class="form-control" + (" is-invalid" if pair.start.errors else "") , aria_describedby=answer_feedback) }}
                     {{ pair.end.label(class="input-group-text") }}
-                    {{ pair.end(placeholder="42", class="form-control" + (" is-invalid" if pair.end.errors else "") , aria_describedby=answer_feedback) }}
+                    {{ pair.end(class="form-control" + (" is-invalid" if pair.end.errors else "") , aria_describedby=answer_feedback) }}
                 </div>
                 <div class="input-group input-group-sm">
-                    <span class="input-group-text">Selected in context</span>
+                    <span class="input-group-text">{{ _("Selected in the context") }}</span>
                     <span readonly class="form-control" id="tipline{{ loop.index }}"></span>
-                    <button id="prev{{ loop.index }}" class="btn btn-outline-secondary" type="button">« Pre</button>
-                    <button id="next{{ loop.index }}" class="btn btn-outline-secondary" type="button">Next »</button>
+                    <button id="prev{{ loop.index }}" class="btn btn-outline-secondary" type="button">« {{ _("Pre") }}</button>
+                    <button id="next{{ loop.index }}" class="btn btn-outline-secondary" type="button">{{ _("Next") }} »</button>
                 </div>
                 {% if pair.text.errors or pair.start.errors or pair.end.errors %}
                     <div id="{{ answer_feedback }}" class="d-block invalid-feedback">
@@ -80,29 +87,26 @@
             </div>
         {% endfor %}
         <div class="mt-3 pb-3 px-3 pt-1 border">
-            <span>Impossible questions</span>
+            <span>{{ _("Impossible questions") }}</span>
             {% for pair in form.impossibles %}
                 {% set feedback = "answer%sfeedback"%loop.index %}
                     <div class="input-group mb-2 mt-2">
                         {{ pair.question.label(class="input-group-text", text="{} #{}".format(pair.question.label.text, loop.index)) }}
                         {% if pair.question.errors %}
-                            {{ pair.question(placeholder="What when happened?", class="is-invalid form-control", aria_describedby=feedback) }}
+                            {{ pair.question(class="is-invalid form-control", aria_describedby=feedback) }}
                             <div id="{{ feedback }}" class="d-block invalid-feedback">
                                 {% for error in pair.question.errors %}
                                     <span>{{ error }}&nbsp;</span>
                                 {% endfor %}
                             </div>
                         {% else %}
-                            {{ pair.question(placeholder="What when happened?", class="form-control") }}
+                            {{ pair.question(class="form-control") }}
                         {% endif %}
                     </div>
             {% endfor %}
         </div>
         {{ form.submit(class="btn btn-lg btn-success px-max mt-3 w-100") }}
     </form>
-    <div class="my-4">
-        <button id="rtl" type="button" class="btn btn-secondary float-end" data-bs-toggle="button" autocomplete="off" aria-pressed="false">Toggle RTL</button>
-    </div>
 {% endblock content %}
 
 {% block scripts %}

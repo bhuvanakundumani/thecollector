@@ -1,4 +1,4 @@
-from thecollector import App
+from thecollector import app
 
 if __name__ == "__main__":
-    App.run(debug=True)
+    app.run(debug=True)

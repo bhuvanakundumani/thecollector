@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="en" dir="rtl">
+<html class="no-js" lang="{{ lang }}" dir="rtl">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,6 +23,12 @@
             .ltr {
                 direction: ltr !important;
             }
+            .mw {
+                width: max-content;
+            }
+            html[dir="rtl"] .float-end {
+                float: left !important;
+            }
             {% block style %}{% endblock %}
         </style>
     </head>
@@ -30,7 +36,27 @@
         <div class="container">
             <div class="row min-vh-100 py-3 align-items-center">
                 <div class="col m-auto">
-                    {% if title %}<h1>{{ title }}</h1>{% endif %}
+                    {% if title or other_locales %}
+                        <div class="row align-items-end mb-3">
+                            {% if title %}
+                            <div class="col">
+                                <h1>{{ title }}</h1>
+                            </div>
+                            {% endif %}
+                            {% if other_locales %}
+                                <div class="col">
+                                    <div class="input-group input-group-sm float-end mw">
+                                        <span class="input-group-text">{{ _('Also available in') }}</span>
+                                        {% for ll, code in other_locales.items() %}
+                                            {% if lang != code %}
+                                                <a href="{{ url_for('form') }}?lang={{ code }}" class="btn btn-outline-secondary">{{ _(ll) }}</a>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
                     {% with messages = get_flashed_messages(with_categories=True) %}
                         {% if messages %}
                             {% for category, message in messages %}

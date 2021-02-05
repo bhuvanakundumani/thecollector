@@ -2,41 +2,42 @@ from flask_wtf import FlaskForm
 from wtforms import SubmitField, StringField, TextAreaField, FormField, Form, FieldList
 from wtforms.widgets.html5 import NumberInput
 from wtforms.validators import ValidationError, DataRequired, InputRequired, Length
-from thecollector import DB
+from thecollector import db
 from thecollector.models import Data
+from flask_babel import lazy_gettext
 
 
 class NoAnswerForm(Form):
     _index_widget = NumberInput(min=0)
-    question = StringField("Question", validators=[DataRequired()])
+    question = StringField(lazy_gettext("Question"), validators=[DataRequired()])
 
 
 class AnswerForm(NoAnswerForm):
     _index_widget = NoAnswerForm._index_widget
     question = NoAnswerForm.question
-    text = StringField("Answer", validators=[DataRequired()])
+    text = StringField(lazy_gettext("Answer"), validators=[DataRequired()])
     start = StringField(
-        "Start",
+        lazy_gettext("Start"),
         widget=_index_widget,
         validators=[InputRequired()],
     )
     end = StringField(
-        "End",
+        lazy_gettext("End"),
         widget=_index_widget,
         validators=[InputRequired()],
     )
 
 
 class DataForm(FlaskForm):
-    title = StringField("Title", validators=[DataRequired()])
+    title = StringField(lazy_gettext("Title"), validators=[DataRequired()])
     context = TextAreaField(
-        "Context",
+        lazy_gettext("Context"),
         render_kw={
-            "minlength": 512,
+            "minlength": 800,
             "rows": 12,
         },
         validators=[
-            Length(min=512),
+            Length(min=800),
             DataRequired(),
         ],
     )
@@ -50,13 +51,13 @@ class DataForm(FlaskForm):
         min_entries=3,
         max_entries=3,
     )
-    submit = SubmitField("Submit")
+    submit = SubmitField(lazy_gettext("Submit"))
 
     def validate_title(self, field):
         if Data.query.filter_by(title=field.data).first():
             raise ValidationError(
                 field.gettext(
-                    "The title is already available. Work on something else, perhaps?"
+                    "The title is already recorded. Work on something else, perhaps?"
                 )
             )
 
@@ -92,7 +93,7 @@ class DataForm(FlaskForm):
 
     def commit(self, nullify=False):
         for pair in self.answerables:
-            DB.session.add(
+            db.session.add(
                 Data(
                     title=self.title.data,
                     context=self.context.data,
@@ -104,7 +105,7 @@ class DataForm(FlaskForm):
                 )
             )
         for pair in self.impossibles:
-            DB.session.add(
+            db.session.add(
                 Data(
                     title=self.title.data,
                     context=self.context.data,
@@ -113,7 +114,7 @@ class DataForm(FlaskForm):
                 )
             )
         try:
-            DB.session.commit()
+            db.session.commit()
         except Exception as e:
             raise e
         else:
