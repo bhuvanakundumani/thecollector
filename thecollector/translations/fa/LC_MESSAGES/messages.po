@@ -1,0 +1,100 @@
+# Persian translations for the project
+# Copyright (C) 2021
+# This file is distributed under the same license as the project.
+# Mahdi Safarian <ma.hiccup@gmail.com>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: MYDavoodeh@gmail.com\n"
+"POT-Creation-Date: 2021-02-05 05:15+0330\n"
+"PO-Revision-Date: 2021-02-05 19:14+0330\n"
+"Last-Translator: M. Yas. Davoodeh <MYDavoodeh@gmail.com>\n"
+"Language: fa\n"
+"Language-Team: en\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.0\n"
+"X-Generator: Poedit 2.4.1\n"
+
+#: forms.py:12
+msgid "Question"
+msgstr "سؤال"
+
+#: forms.py:18
+msgid "Answer"
+msgstr "جواب"
+
+#: forms.py:20
+msgid "Start"
+msgstr "شروع"
+
+#: forms.py:25
+msgid "End"
+msgstr "پایان"
+
+#: forms.py:32
+msgid "Title"
+msgstr "عنوان"
+
+#: forms.py:34
+msgid "Context"
+msgstr "بدنه"
+
+#: forms.py:54
+msgid "Submit"
+msgstr "ثبت"
+
+#: forms.py:59
+msgid "The title is already recorded. Work on something else, perhaps?"
+msgstr "این عنوان قبلاً ثبت شده. ممکن است روی عنوان دیگری کار کنید؟"
+
+#: routes.py:29
+msgid "Recorded"
+msgstr "ثبت شد"
+
+#: templates/form.html:2
+msgid "The form"
+msgstr "فرم"
+
+#: templates/form.html:4
+msgid "Guideline"
+msgstr "راهنما"
+
+#: templates/form.html:7
+msgid "Also available in"
+msgstr "همچنین در"
+
+#: templates/form.html:20 templates/form.html:27
+msgid "(Wikipedia) Title for your content..."
+msgstr "عنوان (ویکی‌پدیای) محتوای شما..."
+
+#: templates/form.html:33 templates/form.html:40
+msgid "Some story here..."
+msgstr "محتوایی در اینجا..."
+
+#: templates/form.html:47
+msgid "Pair"
+msgstr "جفت"
+
+#: templates/form.html:72
+msgid "Selected in the context"
+msgstr "در بدنه"
+
+#: templates/form.html:74
+msgid "Pre"
+msgstr "قبلی"
+
+#: templates/form.html:75
+msgid "Next"
+msgstr "بعدی"
+
+#: templates/form.html:93
+msgid "Impossible questions"
+msgstr "سؤالات غیرممکن"
+
+#: templates/form.html:114
+msgid "Toggle direction"
+msgstr "تغییر جهت"

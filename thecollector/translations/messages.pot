@@ -94,3 +94,4 @@ msgstr ""
 #: templates/form.html:114
 msgid "Toggle direction"
 msgstr ""
+
