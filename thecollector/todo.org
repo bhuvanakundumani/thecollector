@@ -4,12 +4,14 @@
 # "m"s are other minor commits, hotfixes that nobody asked for.
 * Upcoming
 ** Hots (do them fast)
+- [ ] Make context length max 1000
 ** General
 - [ ] Fix "double application to get to record" bug (probable solution: Extend
   the form session)
 - [ ] Update model to make serialized data saner
 - [ ] JS validation doesn't work (on Chrome)
 - [ ] Check title with JS before filling the form
+- [ ] Add some examples for the guideline
 * Applied
 ** r5
 - [X] Add a guideline next to the form
@@ -47,6 +49,7 @@
 - [ ] Add a smart mechanism for jsonify download without writing it on the server.
 - [ ] Add a $APPNAME for the layout
 - [ ] Add a $DIR for form direction
+- [ ] Add a $CONTEXT_LENGTH optional global
 - [ ] Move context to its own table OR make it self-referencing to another record
 - [ ] Optimize JS
 * +canceled+
