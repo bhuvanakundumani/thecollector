@@ -1,17 +1,12 @@
 {% extends "layout.html" %}
 {% set title = _('The form') %}
 {% block content %}
-    <a href="{{ url_for('guideline') }}" class="btn btn-info w-100 mb-1">{{ _('Guideline') }}</a>
-    {% if other_locales %}
-        <div class="input-group input-group-sm mb-3">
-            <span class="input-group-text">{{ _('Also available in') }}</span>
-            {% for ll, code in other_locales.items() %}
-                {% if lang != code %}
-                    <a href="{{ url_for('form') }}?lang={{ code }}" class="btn btn-outline-secondary">{{ _(ll) }}</a>
-                {% endif %}
-            {% endfor %}
-        </div>
-    {% endif %}
+<div class="btn-group mb-1 w-100" role="group">
+    <a href="{{ url_for('guideline') }}" class="btn btn-info">{{ _('Guideline') }}</a>
+    <div class="d-flex">
+        <button id="rtl" type="button" class="btn btn-secondary" data-bs-toggle="button" autocomplete="off" aria-pressed="false">{{ _("Toggle direction") }}</button>
+    </div>
+</div>
     <form method="{{ method if method else 'POST' }}" action="{{ action if action else '' }}" autocomplete="off" id="dataform">
         {{ form.hidden_tag() }}
         <div class="input-group mb-3">
@@ -110,9 +105,6 @@
         </div>
         {{ form.submit(class="btn btn-lg btn-success px-max mt-3 w-100") }}
     </form>
-    <div class="my-4">
-        <button id="rtl" type="button" class="btn btn-secondary float-end" data-bs-toggle="button" autocomplete="off" aria-pressed="false">{{ _("Toggle direction") }}</button>
-    </div>
 {% endblock content %}
 
 {% block scripts %}

@@ -15,10 +15,12 @@ def get_locale():
 
 def locales(exclude_current=False):
     val = App.config["LANGUAGES"]
-    if exclude_current:
-        current = get_locale()
-        return {k: v for k, v in val.items() if v != current}
-    return val
+    if val is None:
+        return []
+    elif exclude_current:
+        return {k: v for k, v in val.items() if v != get_locale()}
+    else:
+        return val
 
 
 @App.route("/", methods=["GET", "POST"])
