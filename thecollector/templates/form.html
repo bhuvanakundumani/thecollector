@@ -1,13 +1,17 @@
 {% extends "layout.html" %}
 {% set title = _('فرم') %}
 {% block content %}
-{% for language in available_langs.items() %}
-    {% if lang not in language[1] %}
-    <a href="{{url_for('form')}}?lang={{language[1]}}" class="btn btn-secondary mb-3 mt-3 rounded">{{_(language[0])}}</a>
+    <a href="{{ url_for('guideline') }}" class="btn btn-info w-100 mb-1">{{ _('راهنما') }}</a>
+    {% if other_locales %}
+        <div class="input-group input-group-sm mb-3">
+            <span class="input-group-text">{{ _('Also available in') }}</span>
+            {% for ll, code in other_locales.items() %}
+                {% if lang != code %}
+                    <a href="{{ url_for('form') }}?lang={{ code }}" class="btn btn-outline-secondary">{{ _(ll) }}</a>
+                {% endif %}
+            {% endfor %}
+        </div>
     {% endif %}
-{% endfor %}
-<a href="{{ url_for('guideline') }}" class="btn btn-info w-100 mb-3 rounded">{{ _('راهنما') }}</a>
-
     <form method="{{ method if method else 'POST' }}" action="{{ action if action else '' }}" autocomplete="off" id="dataform">
         {{ form.hidden_tag() }}
         <div class="input-group mb-3">

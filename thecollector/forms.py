@@ -4,34 +4,34 @@ from wtforms.widgets.html5 import NumberInput
 from wtforms.validators import ValidationError, DataRequired, InputRequired, Length
 from thecollector import DB
 from thecollector.models import Data
-import flask_babel as fb
+from flask_babel import lazy_gettext
 
 
 class NoAnswerForm(Form):
     _index_widget = NumberInput(min=0)
-    question = StringField(fb.lazy_gettext('پرسش'), validators=[DataRequired()])
+    question = StringField(lazy_gettext('پرسش'), validators=[DataRequired()])
 
 
 class AnswerForm(NoAnswerForm):
     _index_widget = NoAnswerForm._index_widget
     question = NoAnswerForm.question
-    text = StringField(fb.lazy_gettext("پاسخ"), validators=[DataRequired()])
+    text = StringField(lazy_gettext("پاسخ"), validators=[DataRequired()])
     start = StringField(
-        fb.lazy_gettext("آغاز"),
+        lazy_gettext("آغاز"),
         widget=_index_widget,
         validators=[InputRequired()],
     )
     end = StringField(
-        fb.lazy_gettext("پایان"),
+        lazy_gettext("پایان"),
         widget=_index_widget,
         validators=[InputRequired()],
     )
 
 
 class DataForm(FlaskForm):
-    title = StringField(fb.lazy_gettext("عنوان"), validators=[DataRequired()])
+    title = StringField(lazy_gettext("عنوان"), validators=[DataRequired()])
     context = TextAreaField(
-        fb.lazy_gettext("متن"),
+        lazy_gettext("متن"),
         render_kw={
             "minlength": 512,
             "rows": 12,
@@ -51,13 +51,13 @@ class DataForm(FlaskForm):
         min_entries=3,
         max_entries=3,
     )
-    submit = SubmitField(fb.lazy_gettext("ثبت"))
+    submit = SubmitField(lazy_gettext("ثبت"))
 
     def validate_title(self, field):
         if Data.query.filter_by(title=field.data).first():
             raise ValidationError(
-                field.lazy_gettext(
-                    "این عنوان در حال حاضر وجود دارد،‌ موضوع دیگری را انتخاب کنید."
+                field.gettext(
+                    "The title is already available. Work on something else, perhaps?"
                 )
             )
 
