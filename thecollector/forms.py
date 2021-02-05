@@ -4,33 +4,34 @@ from wtforms.widgets.html5 import NumberInput
 from wtforms.validators import ValidationError, DataRequired, InputRequired, Length
 from thecollector import DB
 from thecollector.models import Data
+import flask_babel as fb
 
 
 class NoAnswerForm(Form):
     _index_widget = NumberInput(min=0)
-    question = StringField("Question", validators=[DataRequired()])
+    question = StringField(fb.lazy_gettext('پرسش'), validators=[DataRequired()])
 
 
 class AnswerForm(NoAnswerForm):
     _index_widget = NoAnswerForm._index_widget
     question = NoAnswerForm.question
-    text = StringField("Answer", validators=[DataRequired()])
+    text = StringField(fb.lazy_gettext("پاسخ"), validators=[DataRequired()])
     start = StringField(
-        "Start",
+        fb.lazy_gettext("آغاز"),
         widget=_index_widget,
         validators=[InputRequired()],
     )
     end = StringField(
-        "End",
+        fb.lazy_gettext("پایان"),
         widget=_index_widget,
         validators=[InputRequired()],
     )
 
 
 class DataForm(FlaskForm):
-    title = StringField("Title", validators=[DataRequired()])
+    title = StringField(fb.lazy_gettext("عنوان"), validators=[DataRequired()])
     context = TextAreaField(
-        "Context",
+        fb.lazy_gettext("متن"),
         render_kw={
             "minlength": 512,
             "rows": 12,
@@ -50,13 +51,13 @@ class DataForm(FlaskForm):
         min_entries=3,
         max_entries=3,
     )
-    submit = SubmitField("Submit")
+    submit = SubmitField(fb.lazy_gettext("ثبت"))
 
     def validate_title(self, field):
         if Data.query.filter_by(title=field.data).first():
             raise ValidationError(
-                field.gettext(
-                    "The title is already available. Work on something else, perhaps?"
+                field.lazy_gettext(
+                    "این عنوان در حال حاضر وجود دارد،‌ موضوع دیگری را انتخاب کنید."
                 )
             )
 

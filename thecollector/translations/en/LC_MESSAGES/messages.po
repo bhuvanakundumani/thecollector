@@ -1,0 +1,115 @@
+# English translations for PROJECT.
+# Translations template for PersianQA.
+# This file is distributed under the same license as the PersianQA project.
+# Mahdi Safarian <ma.hiccup@gmail.com>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: ma.hiccup@gmail.com\n"
+"POT-Creation-Date: 2021-02-05 05:15+0330\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Mahdi Safarian <ma.hiccup@gmail.com>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.0\n"
+
+#: forms.py:12
+msgid "پرسش"
+msgstr "Question"
+
+#: forms.py:18
+msgid "پاسخ"
+msgstr "Answer"
+
+#: forms.py:20
+msgid "آغاز"
+msgstr "Start"
+
+#: forms.py:25
+msgid "پایان"
+msgstr "End"
+
+#: forms.py:32
+msgid "عنوان"
+msgstr "Title"
+
+#: forms.py:34
+msgid "متن"
+msgstr "Context"
+
+#: forms.py:54
+msgid "ثبت"
+msgstr "Submit"
+
+#: forms.py:59
+msgid "این عنوان در حال حاضر وجود دارد،‌ موضوع دیگری را انتخاب کنید."
+msgstr "The title is already available. Work on something else, perhaps?"
+
+#: routes.py:22
+msgid "ثبت شد"
+msgstr "Recorded"
+
+#: templates/form.html:2
+msgid "فرم"
+msgstr "Form"
+
+#: templates/form.html:9
+msgid "راهنما"
+msgstr "Guildeline"
+
+#: templates/form.html:16 templates/form.html:23
+msgid "عنوان مقاله (ویکی‌پدیا)"
+msgstr "Tilte for your content (Wikipedia)"
+
+#: templates/form.html:29 templates/form.html:36
+msgid "متن را اینجا بنویسید..."
+msgstr "Some story here..."
+
+#: templates/form.html:43
+msgid "جفت"
+msgstr "Pair"
+
+#: templates/form.html:47 templates/form.html:54 templates/form.html:95
+msgid "درمورد اتفاقی سوالی طرح کنید..."
+msgstr "What when happenen?"
+
+#: templates/form.html:59
+msgid "پاسخ را شرح دهید"
+msgstr "This is when what happened."
+
+#: templates/form.html:68
+msgid "انتخاب شده در متن"
+msgstr "Selected in context"
+
+#: templates/form.html:70
+msgid "بعدی"
+msgstr "Next"
+
+#: templates/form.html:71
+msgid "قبلی"
+msgstr "pre"
+
+#: templates/form.html:89
+msgid "سوالات غیر ممکن"
+msgstr "Impossible questions"
+
+#: templates/form.html:102
+msgid "درمورد اتفاقی سوالی غیر ممکن طرح کنید..."
+msgstr "This is when what happened."
+
+#: templates/form.html:110
+msgid "تغییر راست/چپ چین"
+msgstr "Toggle RTL/LTR"
+
+#: templates/form.html:6
+msgid "فارسی"
+msgstr "Farsi"
+
+#: templates/form.html:6
+# msgid "انگلیسی"
+# msgstr "English"
