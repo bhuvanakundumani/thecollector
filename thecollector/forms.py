@@ -9,29 +9,29 @@ from flask_babel import lazy_gettext
 
 class NoAnswerForm(Form):
     _index_widget = NumberInput(min=0)
-    question = StringField(lazy_gettext('پرسش'), validators=[DataRequired()])
+    question = StringField(lazy_gettext("Question"), validators=[DataRequired()])
 
 
 class AnswerForm(NoAnswerForm):
     _index_widget = NoAnswerForm._index_widget
     question = NoAnswerForm.question
-    text = StringField(lazy_gettext("پاسخ"), validators=[DataRequired()])
+    text = StringField(lazy_gettext("Answer"), validators=[DataRequired()])
     start = StringField(
-        lazy_gettext("آغاز"),
+        lazy_gettext("Start"),
         widget=_index_widget,
         validators=[InputRequired()],
     )
     end = StringField(
-        lazy_gettext("پایان"),
+        lazy_gettext("End"),
         widget=_index_widget,
         validators=[InputRequired()],
     )
 
 
 class DataForm(FlaskForm):
-    title = StringField(lazy_gettext("عنوان"), validators=[DataRequired()])
+    title = StringField(lazy_gettext("Title"), validators=[DataRequired()])
     context = TextAreaField(
-        lazy_gettext("متن"),
+        lazy_gettext("Context"),
         render_kw={
             "minlength": 512,
             "rows": 12,
@@ -51,13 +51,13 @@ class DataForm(FlaskForm):
         min_entries=3,
         max_entries=3,
     )
-    submit = SubmitField(lazy_gettext("ثبت"))
+    submit = SubmitField(lazy_gettext("Submit"))
 
     def validate_title(self, field):
         if Data.query.filter_by(title=field.data).first():
             raise ValidationError(
                 field.gettext(
-                    "The title is already available. Work on something else, perhaps?"
+                    "The title is already recorded. Work on something else, perhaps?"
                 )
             )
 

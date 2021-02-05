@@ -26,7 +26,7 @@ def form():
     form = DataForm()
     if form.validate_on_submit():
         form.commit(nullify=True)
-        flash(gettext("recorded"), "success")
+        flash(gettext("Recorded"), "success")
     return render_template(
         "form.html",
         form=form,

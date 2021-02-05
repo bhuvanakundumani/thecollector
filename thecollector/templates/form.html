@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
-{% set title = _('فرم') %}
+{% set title = _('The form') %}
 {% block content %}
-    <a href="{{ url_for('guideline') }}" class="btn btn-info w-100 mb-1">{{ _('راهنما') }}</a>
+    <a href="{{ url_for('guideline') }}" class="btn btn-info w-100 mb-1">{{ _('Guideline') }}</a>
     {% if other_locales %}
         <div class="input-group input-group-sm mb-3">
             <span class="input-group-text">{{ _('Also available in') }}</span>
@@ -17,62 +17,62 @@
         <div class="input-group mb-3">
             {{ form.title.label(class="input-group-text") }}
             {% if form.title.errors %}
-                {{ form.title(placeholder=_("عنوان مقاله (ویکی‌پدیا)"), class="is-invalid form-control", aria_describedby="%sfeedback"%form.title.id) }}
+                {{ form.title(placeholder=_("(Wikipedia) Title for your content..."), class="is-invalid form-control", aria_describedby="%sfeedback"%form.title.id) }}
                 <div id="{{ form.title.id }}feedback" class="d-block invalid-feedback">
                     {% for error in form.title.errors %}
                         <span>{{ error }}</span>&nbsp;
                     {% endfor %}
                 </div>
             {% else %}
-                {{ form.title(placeholder=_("عنوان مقاله (ویکی‌پدیا)"), class="form-control") }}
+                {{ form.title(placeholder=_("(Wikipedia) Title for your content..."), class="form-control") }}
             {% endif %}
         </div>
         <div class="input-group mb-3">
             {{ form.context.label(class="input-group-text") }}
             {% if form.context.errors %}
-                {{ form.context(placeholder=_("متن را اینجا بنویسید..."), class="is-invalid form-control h-auto", aria_describedby="%sfeedback"%form.context.id) }}
+                {{ form.context(placeholder=_("Some story here..."), class="is-invalid form-control h-auto", aria_describedby="%sfeedback"%form.context.id) }}
                 <div id="{{ form.context.id }}feedback" class="d-block invalid-feedback">
                     {% for error in form.context.errors %}
                         <span>{{ error }}</span>&nbsp;
                     {% endfor %}
                 </div>
             {% else %}
-                {{ form.context(placeholder=_("متن را اینجا بنویسید..."), class="form-control h-auto") }}
+                {{ form.context(placeholder=_("Some story here..."), class="form-control h-auto") }}
             {% endif %}
             <span class="input-group-text ltr"><sup id="contextcount">0</sup>&frasl;<sub>512</sub></span>
         </div>
         {% for pair in form.answerables %}
             {% set answer_feedback = "answer%sfeedback"%loop.index %}
             <div class="mt-3 pb-3 px-3 pt-1 border">
-                <span>{{ _("جفت") }} #{{ loop.index }}</span>
+                <span>{{ _("Pair") }} #{{ loop.index }}</span>
                 <div class="input-group mb-1 mt-2">
                     {{ pair.question.label(class="input-group-text") }}
                     {% if pair.question.errors %}
-                        {{ pair.question(placeholder=_("درمورد اتفاقی سوالی طرح کنید..."), class="is-invalid form-control", aria_describedby="%sfeedback"%pair.question.id) }}
+                        {{ pair.question(class="is-invalid form-control", aria_describedby="%sfeedback"%pair.question.id) }}
                         <div id="{{ pair.question.id }}feedback" class="d-block invalid-feedback">
                             {% for error in pair.question.errors %}
                                 <span>{{ error }}&nbsp;</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ pair.question(placeholder=_("درمورد اتفاقی سوالی طرح کنید..."), class="form-control") }}
+                        {{ pair.question(class="form-control") }}
                     {% endif %}
                 </div>
                 <div class="input-group mb-1">
                     {{ pair.text.label(class="input-group-text") }}
-                    {{ pair.text(placeholder=_("پاسخ را شرح دهید"), class="form-control" + (" is-invalid" if pair.text.errors else ""), aria_describedby=answer_feedback) }}
+                    {{ pair.text(class="form-control" + (" is-invalid" if pair.text.errors else ""), aria_describedby=answer_feedback) }}
                 </div>
                 <div class="input-group mb-1">
                     {{ pair.start.label(class="input-group-text") }}
-                    {{ pair.start(placeholder="9", class="form-control" + (" is-invalid" if pair.start.errors else "") , aria_describedby=answer_feedback) }}
+                    {{ pair.start(class="form-control" + (" is-invalid" if pair.start.errors else "") , aria_describedby=answer_feedback) }}
                     {{ pair.end.label(class="input-group-text") }}
-                    {{ pair.end(placeholder="42", class="form-control" + (" is-invalid" if pair.end.errors else "") , aria_describedby=answer_feedback) }}
+                    {{ pair.end(class="form-control" + (" is-invalid" if pair.end.errors else "") , aria_describedby=answer_feedback) }}
                 </div>
                 <div class="input-group input-group-sm">
-                    <span class="input-group-text">{{ _("انتخاب شده در متن") }}</span>
+                    <span class="input-group-text">{{ _("Selected in the context") }}</span>
                     <span readonly class="form-control" id="tipline{{ loop.index }}"></span>
-                    <button id="prev{{ loop.index }}" class="btn btn-outline-secondary" type="button">{{ _("قبلی") }}</button>
-                    <button id="next{{ loop.index }}" class="btn btn-outline-secondary" type="button">{{ _("بعدی") }}</button>
+                    <button id="prev{{ loop.index }}" class="btn btn-outline-secondary" type="button">« {{ _("Pre") }}</button>
+                    <button id="next{{ loop.index }}" class="btn btn-outline-secondary" type="button">{{ _("Next") }} »</button>
                 </div>
                 {% if pair.text.errors or pair.start.errors or pair.end.errors %}
                     <div id="{{ answer_feedback }}" class="d-block invalid-feedback">
@@ -90,20 +90,20 @@
             </div>
         {% endfor %}
         <div class="mt-3 pb-3 px-3 pt-1 border">
-            <span>{{ _("سوالات غیر ممکن") }}</span>
+            <span>{{ _("Impossible questions") }}</span>
             {% for pair in form.impossibles %}
                 {% set feedback = "answer%sfeedback"%loop.index %}
                     <div class="input-group mb-2 mt-2">
                         {{ pair.question.label(class="input-group-text", text="{} #{}".format(pair.question.label.text, loop.index)) }}
                         {% if pair.question.errors %}
-                            {{ pair.question(placeholder=_("درمورد اتفاقی سوالی طرح کنید..."), class="is-invalid form-control", aria_describedby=feedback) }}
+                            {{ pair.question(class="is-invalid form-control", aria_describedby=feedback) }}
                             <div id="{{ feedback }}" class="d-block invalid-feedback">
                                 {% for error in pair.question.errors %}
                                     <span>{{ error }}&nbsp;</span>
                                 {% endfor %}
                             </div>
                         {% else %}
-                            {{ pair.question(placeholder=_("درمورد اتفاقی سوالی غیر ممکن طرح کنید..."), class="form-control") }}
+                            {{ pair.question(class="form-control") }}
                         {% endif %}
                     </div>
             {% endfor %}
@@ -111,7 +111,7 @@
         {{ form.submit(class="btn btn-lg btn-success px-max mt-3 w-100") }}
     </form>
     <div class="my-4">
-        <button id="rtl" type="button" class="btn btn-secondary float-end" data-bs-toggle="button" autocomplete="off" aria-pressed="false">{{ _("تغییر راست/چپ چین") }}</button>
+        <button id="rtl" type="button" class="btn btn-secondary float-end" data-bs-toggle="button" autocomplete="off" aria-pressed="false">{{ _("Toggle direction") }}</button>
     </div>
 {% endblock content %}
 
