@@ -13,7 +13,6 @@ class Data(db.Model, SerializerMixin):
     is_impossible = db.Column(db.Boolean)
 
     serialize_rules = (
-        "-id",
         "-answer_text",
         "-answer_start",
         "-answer_end",
@@ -22,9 +21,10 @@ class Data(db.Model, SerializerMixin):
 
     @property
     def answers(self):
-        return {
-            "answer_start": [self.answer_start],
-            "answer_end": [self.answer_end],
-            "text": [self.answer_text],
-            "is_impossible": [bool(self.is_impossible)],
-        }
+        return [
+            {
+                "answer_start": self.answer_start,
+                "answer_end": self.answer_end,
+                "text": self.answer_text,
+            }
+        ]

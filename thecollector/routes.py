@@ -1,6 +1,7 @@
 from thecollector import app, babel
 from thecollector.forms import DataForm
-from flask import render_template, flash, request
+import thecollector.helpers as helpers
+from flask import render_template, flash, request, jsonify
 from flask_babel import gettext
 
 
@@ -44,3 +45,8 @@ def form():
 @app.route("/guideline")
 def guideline():
     return render_template("guideline.html")
+
+
+@app.route("/api/data_len")
+def data_len():
+    return jsonify(helpers.data_len())

@@ -7,11 +7,14 @@
 ** General
 - [ ] Fix "double application to get to record" bug (probable solution: Extend
   the form session)
-- [ ] Update model to make serialized data saner
 - [ ] JS validation doesn't work (on Chrome)
 - [ ] Check title with JS before filling the form
 - [ ] Add some examples for the guideline
 * Applied
+** r7
+- [X] Make context length min 1000
+- [X] Add an API for length
+- [X] Add some helpers for serialization instead of updating the model
 ** r6
 - [X] Add multi-language support
 - [X] Make context length min 800
@@ -54,6 +57,8 @@
 - [ ] Add a $CONTEXT_LENGTH optional global
 - [ ] Move context to its own table OR make it self-referencing to another record
 - [ ] Optimize JS
+- [ ] Make the form dynamic and 100% squad compatible with tools to create your own forms
+- [ ] Update model to make serialized data saner
 * +canceled+
 # - [ ] Make ZWNJ all spaces
 # - [ ] Lock indices
