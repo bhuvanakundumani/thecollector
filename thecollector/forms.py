@@ -33,11 +33,11 @@ class DataForm(FlaskForm):
     context = TextAreaField(
         lazy_gettext("Context"),
         render_kw={
-            "minlength": 1000,
+            "minlength": 800,
             "rows": 12,
         },
         validators=[
-            Length(min=1000),
+            Length(min=800),
             DataRequired(),
         ],
     )
