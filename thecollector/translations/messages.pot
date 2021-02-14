@@ -40,58 +40,66 @@ msgid "Context"
 msgstr ""
 
 #: forms.py:54
+msgid "By"
+msgstr ""
+
+#: forms.py:55
 msgid "Submit"
 msgstr ""
 
-#: forms.py:59
+#: forms.py:60
 msgid "The title is already recorded. Work on something else, perhaps?"
 msgstr ""
 
-#: routes.py:29
+#: routes.py:36
 msgid "Recorded"
 msgstr ""
 
-#: templates/form.html:2
+#: templates/form.html:2 templates/guideline.html:111
 msgid "The form"
 msgstr ""
 
-#: templates/form.html:4
+#: templates/form.html:5 templates/guideline.html:2
 msgid "Guideline"
 msgstr ""
 
 #: templates/form.html:7
-msgid "Also available in"
+msgid "Toggle direction"
 msgstr ""
 
-#: templates/form.html:20 templates/form.html:27
+#: templates/form.html:16 templates/form.html:23
+msgid "A sign that you wrote this..."
+msgstr ""
+
+#: templates/form.html:30 templates/form.html:37
 msgid "(Wikipedia) Title for your content..."
 msgstr ""
 
-#: templates/form.html:33 templates/form.html:40
+#: templates/form.html:43 templates/form.html:50
 msgid "Some story here..."
 msgstr ""
 
-#: templates/form.html:47
+#: templates/form.html:59
 msgid "Pair"
 msgstr ""
 
-#: templates/form.html:72
+#: templates/form.html:84
 msgid "Selected in the context"
 msgstr ""
 
-#: templates/form.html:74
+#: templates/form.html:86
 msgid "Pre"
 msgstr ""
 
-#: templates/form.html:75
+#: templates/form.html:87
 msgid "Next"
 msgstr ""
 
-#: templates/form.html:93
+#: templates/form.html:105
 msgid "Impossible questions"
 msgstr ""
 
-#: templates/form.html:114
-msgid "Toggle direction"
+#: templates/layout.html:58
+msgid "Also available in"
 msgstr ""
 

@@ -9,6 +9,21 @@
 </div>
     <form method="{{ method if method else 'POST' }}" action="{{ action if action else '' }}" autocomplete="off" id="dataform">
         {{ form.hidden_tag() }}
+        {% if sign %}
+            <div class="input-group mb-3">
+                {{ form.sign.label(class="input-group-text") }}
+                {% if form.sign.errors %}
+                    {{ form.sign(value=sign, readonly="", placeholder=_("A sign that you wrote this..."), class="is-invalid form-control", aria_describedby="%sfeedback"%form.sign.id) }}
+                    <div id="{{ form.sign.id }}feedback" class="d-block invalid-feedback">
+                        {% for error in form.sign.errors %}
+                            <span>{{ error }}</span>&nbsp;
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.sign(value=sign, readonly="", placeholder=_("A sign that you wrote this..."), class="form-control") }}
+                {% endif %}
+            </div>
+        {% endif %}
         <div class="input-group mb-3">
             {{ form.title.label(class="input-group-text") }}
             {% if form.title.errors %}

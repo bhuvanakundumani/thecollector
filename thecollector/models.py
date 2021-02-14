@@ -10,6 +10,7 @@ class Data(db.Model, SerializerMixin):
     answer_text = db.Column(db.String())
     answer_start = db.Column(db.Integer)
     answer_end = db.Column(db.Integer)
+    sign = db.Column(db.String())
     is_impossible = db.Column(db.Boolean)
 
     serialize_rules = (

@@ -51,6 +51,7 @@ class DataForm(FlaskForm):
         min_entries=3,
         max_entries=3,
     )
+    sign = StringField(lazy_gettext("By"))
     submit = SubmitField(lazy_gettext("Submit"))
 
     def validate_title(self, field):
@@ -102,6 +103,7 @@ class DataForm(FlaskForm):
                     answer_start=pair.start.data,
                     answer_end=pair.end.data,
                     is_impossible=False,
+                    sign=self.sign.data,
                 )
             )
         for pair in self.impossibles:
@@ -111,6 +113,7 @@ class DataForm(FlaskForm):
                     context=self.context.data,
                     question=pair.question.data,
                     is_impossible=True,
+                    sign=self.sign.data,
                 )
             )
         try:
@@ -118,8 +121,8 @@ class DataForm(FlaskForm):
         except Exception as e:
             raise e
         else:
-            # This else clause ensures data security for the client in case the
-            # commition fails.
+            # This else clause ensures data security for the client. In the
+            # case, the commition fails it won't run.
             if nullify:
                 for pair in self.answerables:
                     pair.question.data = None
@@ -130,3 +133,4 @@ class DataForm(FlaskForm):
                     pair.question.data = None
                 self.title.data = None
                 self.context.data = None
+                self.sign.data = None

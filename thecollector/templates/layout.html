@@ -1,3 +1,4 @@
+{% set lang = locale() %}
 <!doctype html>
 <html class="no-js" lang="{{ lang }}" dir="rtl">
     <head>
@@ -36,6 +37,16 @@
         <div class="container">
             <div class="row min-vh-100 py-3 align-items-center">
                 <div class="col m-auto">
+                    {% with messages = get_flashed_messages(with_categories=True) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    {% set other_locales = locales(exclude_current=True) %}
                     {% if title or other_locales %}
                         <div class="row align-items-end mb-3">
                             {% if title %}
@@ -47,9 +58,9 @@
                                 <div class="col">
                                     <div class="input-group input-group-sm float-end mw">
                                         <span class="input-group-text">{{ _('Also available in') }}</span>
-                                        {% for ll, code in other_locales.items() %}
-                                            {% if lang != code %}
-                                                <a href="{{ url_for('form') }}?lang={{ code }}" class="btn btn-outline-secondary">{{ _(ll) }}</a>
+                                        {% for locale_name, locale in other_locales.items() %}
+                                            {% if lang != locale %}
+                                                <a href="{{ url_for_locale(locale) }}" class="btn btn-outline-secondary">{{ _(locale_name) }}</a>
                                             {% endif %}
                                         {% endfor %}
                                     </div>
@@ -57,15 +68,6 @@
                             {% endif %}
                         </div>
                     {% endif %}
-                    {% with messages = get_flashed_messages(with_categories=True) %}
-                        {% if messages %}
-                            {% for category, message in messages %}
-                                <div class="alert alert-{{ category }}">
-                                    {{ message }}
-                                </div>
-                            {% endfor %}
-                        {% endif %}
-                    {% endwith %}
                     {% block content %}{% endblock %}
                 </div>
             </div>

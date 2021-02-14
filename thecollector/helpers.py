@@ -1,7 +1,26 @@
-from thecollector import relative, db
+from thecollector import relative, db, app
 from thecollector.models import Data
+import sqlalchemy
 from time import strftime, gmtime
 import json
+import shutil
+import re
+
+
+tsf = "%y%m%d-%H%M%S"
+
+
+def db_exec(q, skip_backup=False):
+    if (not skip_backup) and (app.config.get("ENV") == "production"):
+        backup_db()
+    db.engine.execute(sqlalchemy.text(q))
+
+
+def backup_db():
+    db = re.sub(r"^(\w+:///)", "", app.config["SQLALCHEMY_DATABASE_URI"])
+    back = "backup-" + strftime(tsf, gmtime()) + "_" + db
+    print("Copying", relative(db), "to the same dir", back)
+    return shutil.copy2(relative(db), relative(back))
 
 
 def data_len():
@@ -9,7 +28,7 @@ def data_len():
 
 
 def data_dump(form="squad"):
-    fname = "data_" + strftime("%y%m%d-%H%M%S", gmtime()) + ".json"
+    fname = "data_" + strftime(tsf, gmtime()) + ".json"
     fpath = relative("static/data/" + fname)
     if form == "squad":
         data = data_jsonify_squad()
@@ -80,7 +99,10 @@ def data_test_custom(path):
                             "context": context,
                             "question": question,
                             "id": id_,
-                            "answers": {"answer_start": answer_starts, "text": answers},
+                            "answers": {
+                                "answer_start": answer_starts,
+                                "text": answers,
+                            },
                         }
                     )
     return ds
