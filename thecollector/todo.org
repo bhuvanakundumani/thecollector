@@ -10,7 +10,15 @@
 - [ ] JS validation doesn't work (on Chrome)
 - [ ] Check title with JS before filling the form
 - [ ] Add some examples for the guideline
+- [ ] Prevent spamming "check title" button and make it automatic.
+- [ ] Disable LastPass in the form.
 * Applied
+** r9
+- [X] Add a "check title" feature.
+- [X] Remove helpers.
+- [X] Finish i18n by localizing form errors.
+- [X] Add a global BaseModel for all DB models to inherit from.
+- [X] Prevent "context_count not found" when render_kws are not defined.
 ** r8
 - [X] Improve localization and templating using Jinja directives.
 - [X] Fix "Lost url arguments due to language change" bug.
@@ -69,6 +77,7 @@
 - [ ] Optimize JS
 - [ ] Make the form dynamic and 100% squad compatible with tools to create your own forms
 - [ ] Update model to make serialized data saner
+- [ ] Add a commandline interface (helper replacement).
 * +canceled+
 # - [ ] Make ZWNJ all spaces
 # - [ ] Lock indices

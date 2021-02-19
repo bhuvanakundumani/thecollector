@@ -32,26 +32,38 @@ msgid "End"
 msgstr ""
 
 #: forms.py:32
-msgid "Title"
-msgstr ""
-
-#: forms.py:34
-msgid "Context"
-msgstr ""
-
-#: forms.py:54
-msgid "By"
-msgstr ""
-
-#: forms.py:55
-msgid "Submit"
-msgstr ""
-
-#: forms.py:60
 msgid "The title is already recorded. Work on something else, perhaps?"
 msgstr ""
 
-#: routes.py:36
+#: forms.py:35
+msgid "Title"
+msgstr ""
+
+#: forms.py:37
+msgid "Context"
+msgstr ""
+
+#: forms.py:57
+msgid "By"
+msgstr ""
+
+#: forms.py:58
+msgid "Submit"
+msgstr ""
+
+#: forms.py:76
+#, python-format
+msgid ""
+"Field must be equal to a slice from the start index to the end index of "
+"the context, %s."
+msgstr ""
+
+#: forms.py:91
+#, python-format
+msgid "Use unique questions; Question %(first)s is the same as %(second)s."
+msgstr ""
+
+#: routes.py:13
 msgid "Recorded"
 msgstr ""
 
@@ -71,35 +83,39 @@ msgstr ""
 msgid "A sign that you wrote this..."
 msgstr ""
 
-#: templates/form.html:30 templates/form.html:37
+#: templates/form.html:29
 msgid "(Wikipedia) Title for your content..."
 msgstr ""
 
-#: templates/form.html:43 templates/form.html:50
+#: templates/form.html:30
+msgid "Check"
+msgstr ""
+
+#: templates/form.html:40 templates/form.html:47
 msgid "Some story here..."
 msgstr ""
 
-#: templates/form.html:59
+#: templates/form.html:56
 msgid "Pair"
 msgstr ""
 
-#: templates/form.html:84
+#: templates/form.html:81
 msgid "Selected in the context"
 msgstr ""
 
-#: templates/form.html:86
+#: templates/form.html:83
 msgid "Pre"
 msgstr ""
 
-#: templates/form.html:87
+#: templates/form.html:84
 msgid "Next"
 msgstr ""
 
-#: templates/form.html:105
+#: templates/form.html:102
 msgid "Impossible questions"
 msgstr ""
 
-#: templates/layout.html:58
+#: templates/layout.html:60
 msgid "Also available in"
 msgstr ""
 

@@ -26,16 +26,13 @@
         {% endif %}
         <div class="input-group mb-3">
             {{ form.title.label(class="input-group-text") }}
-            {% if form.title.errors %}
-                {{ form.title(placeholder=_("(Wikipedia) Title for your content..."), class="is-invalid form-control", aria_describedby="%sfeedback"%form.title.id) }}
-                <div id="{{ form.title.id }}feedback" class="d-block invalid-feedback">
-                    {% for error in form.title.errors %}
-                        <span>{{ error }}</span>&nbsp;
-                    {% endfor %}
-                </div>
-            {% else %}
-                {{ form.title(placeholder=_("(Wikipedia) Title for your content..."), class="form-control") }}
-            {% endif %}
+            {{ form.title(placeholder=_("(Wikipedia) Title for your content..."), class="form-control" + (" is-invalid" if form.title.errors else ""), aria_describedby="%sfeedback"%form.title.id) }}
+            <button id="check_title" class="btn btn-outline-primary" type="button">{{ _("Check") }}</button>
+            <div id="{{ form.title.id }}feedback" class="{{ 'd-block ' if form.title.errors else '' }}invalid-feedback">
+                {% for error in form.title.errors %}
+                    <span>{{ error }}</span>&nbsp;
+                {% endfor %}
+            </div>
         </div>
         <div class="input-group mb-3">
             {{ form.context.label(class="input-group-text") }}
@@ -158,7 +155,6 @@
         let tiplines = document.querySelectorAll('span[id^="tipline"]');
         let prevs = document.querySelectorAll('button[id^="prev"]');
         let nexts = document.querySelectorAll('button[id^="next"]');
-        let context_count = document.getElementById('contextcount');
         {# occurrences is a 2D array like [i:[occurrences], i2:[occurrences], ..., n] where n is the lenght of answers. It holds indices of found answers in the context. #}
         let occurrences = [...Array(answer_fields.length)].map(e => Array());
 
@@ -201,7 +197,9 @@
                 update_tipline(id);
                 update_index(id);
             });
-            context_count.innerHTML = context.value.length;
+            {% if form.context.render_kw.minlength %}
+                document.getElementById('contextcount').innerHTML = context.value.length;
+            {% endif %}
         }
 
         function revolve(ntimes, id) {
@@ -284,6 +282,44 @@
             refresh_form();
             return true;
         }
+    </script>
+    <script type="text/javascript">
+        // Ajaj v0.2.1
+        window.ajaj=function({method:j="GET",url:a,async:k=!0,data:b,contentType:l="application/x-www-form-urlencoded; charset=UTF-8",responseType:m=null,headers:n={},mimeType:o=null,username:p=null,password:q=null,before:c,start:d,uploadProgress:e,downloadProgress:f,success:g,complete:h,fail:i}){"function"==typeof c&&c();var r;try{r=new XMLHttpRequest}catch(a){try{r=new ActiveXObject("Microsoft.XMLHTTP")}catch(a){return console.error(a),!1}}"function"==typeof d&&(r.onloadstart=d),"function"==typeof f&&(r.onprogress=f),"function"==typeof e&&(r.upload.onprogress=e),r.onload=function(){var a="json"===m||"JSON"===m?JSON.parse(r.response):r.response;var b=r.getAllResponseHeaders();200<=r.status&&300>r.status?"function"==typeof g&&g(a,b):"function"==typeof i&&i(a,b)},"function"==typeof i&&(r.onerror=i),"function"==typeof h&&(r.onloadend=h),j=j.toLowerCase();var s="";for(var t in b)"object"==typeof b&&(""!=s&&(s+="&"),s+=t+"="+encodeURIComponent(b[t]));for(var u in"get"==j&&(a=a+"?"+s),"post"===j&&"application/x-www-form-urlencoded; charset=UTF-8"===l&&(b=s),r.open(j,a,k,p,q),r.setRequestHeader("Content-type",l),null!==o&&r.overrideMimeType(o),n)({})!==n&&r.setRequestHeader(u,n[u]);return r.send(b)};
+        let title_field = document.getElementById('{{ form.title.id }}');
+        let title_feedback = document.getElementById('{{ form.title.id }}feedback');
+        let check_title_btn = document.getElementById('check_title');
+        let check_title = function() {
+            if (title_field.value != "") {
+                ajaj({
+                    method: "GET",
+                    url: "{{ url_for('title_match') }}" + title_field.value,
+                    success: function(data) {
+                        data = JSON.parse(data);
+                        let err = document.getElementById('duplicate_title_error');
+                        if (data) {
+                            if (!err)
+                                title_feedback.innerHTML += '<span id="duplicate_title_error">{{ _(form.duplicate_title_error) }}</span>&nbsp;';
+                            title_feedback.classList.add("d-block");
+                            title_field.classList.add("is-invalid");
+                            title_field.classList.remove("is-valid");
+                        } else {
+                            if (err)
+                                err.remove();
+                            title_field.classList.add("is-valid");
+                            title_field.classList.remove("is-invalid");
+                        }
+                        if (title_feedback.children.length == 0) {
+                            title_feedback.innerHTML = ""; // for probable whitespaces
+                            title_feedback.classList.remove("d-block");
+                        }
+                    }
+                });
+            }
+        }
+        check_title_btn.onclick = check_title;
+        title_field.onchange = check_title;
+        title_field.onpaste = check_title;
     </script>
 {% endblock scripts %}
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: MYDavoodeh@gmail.com\n"
-"POT-Creation-Date: 2021-02-05 05:15+0330\n"
+"POT-Creation-Date: 2021-02-20 00:25+0330\n"
 "PO-Revision-Date: 2021-02-05 19:14+0330\n"
 "Last-Translator: M. Yas. Davoodeh <MYDavoodeh@gmail.com>\n"
 "Language: fa\n"
@@ -35,26 +35,40 @@ msgid "End"
 msgstr "پایان"
 
 #: forms.py:32
-msgid "Title"
-msgstr "عنوان"
-
-#: forms.py:34
-msgid "Context"
-msgstr "بدنه"
-
-#: forms.py:54
-msgid "By"
-msgstr "توسط"
-
-#: forms.py:55
-msgid "Submit"
-msgstr "ثبت"
-
-#: forms.py:60
 msgid "The title is already recorded. Work on something else, perhaps?"
 msgstr "این عنوان قبلاً ثبت شده. ممکن است روی عنوان دیگری کار کنید؟"
 
-#: routes.py:36
+#: forms.py:35
+msgid "Title"
+msgstr "عنوان"
+
+#: forms.py:37
+msgid "Context"
+msgstr "بدنه"
+
+#: forms.py:57
+msgid "By"
+msgstr "توسط"
+
+#: forms.py:58
+msgid "Submit"
+msgstr "ثبت"
+
+#: forms.py:76
+#, python-format
+msgid ""
+"Field must be equal to a slice from the start index to the end index of "
+"the context, %s."
+msgstr "فیلد باید برابر با بخشی از اندیس شروع تا اندیس پایان بدنه، %s، باشد."
+
+#: forms.py:91
+#, python-format
+msgid "Use unique questions; Question %(first)s is the same as %(second)s."
+msgstr ""
+"از سؤالات یکتا استفاده کنید؛ سؤال %(first)s دقیقاً برابر با %(second)s "
+"است."
+
+#: routes.py:13
 msgid "Recorded"
 msgstr "ثبت شد"
 
@@ -74,35 +88,39 @@ msgstr "تغییر جهت"
 msgid "A sign that you wrote this..."
 msgstr "یک نشان که شما این را نوشتید..."
 
-#: templates/form.html:30 templates/form.html:37
+#: templates/form.html:29
 msgid "(Wikipedia) Title for your content..."
 msgstr "عنوان (ویکی‌پدیای) محتوای شما..."
 
-#: templates/form.html:43 templates/form.html:50
+#: templates/form.html:30
+msgid "Check"
+msgstr "بررسی"
+
+#: templates/form.html:40 templates/form.html:47
 msgid "Some story here..."
 msgstr "محتوایی در اینجا..."
 
-#: templates/form.html:59
+#: templates/form.html:56
 msgid "Pair"
 msgstr "جفت"
 
-#: templates/form.html:84
+#: templates/form.html:81
 msgid "Selected in the context"
 msgstr "در بدنه"
 
-#: templates/form.html:86
+#: templates/form.html:83
 msgid "Pre"
 msgstr "قبلی"
 
-#: templates/form.html:87
+#: templates/form.html:84
 msgid "Next"
 msgstr "بعدی"
 
-#: templates/form.html:105
+#: templates/form.html:102
 msgid "Impossible questions"
 msgstr "سؤالات غیرممکن"
 
-#: templates/layout.html:58
+#: templates/layout.html:60
 msgid "Also available in"
 msgstr "همچنین در"
 

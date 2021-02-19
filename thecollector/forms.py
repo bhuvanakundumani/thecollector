@@ -4,34 +4,37 @@ from wtforms.widgets.html5 import NumberInput
 from wtforms.validators import ValidationError, DataRequired, InputRequired, Length
 from thecollector import db
 from thecollector.models import Data
-from flask_babel import lazy_gettext
+from flask_babel import lazy_gettext as _
 
 
 class NoAnswerForm(Form):
     _index_widget = NumberInput(min=0)
-    question = StringField(lazy_gettext("Question"), validators=[DataRequired()])
+    question = StringField(_("Question"), validators=[DataRequired()])
 
 
 class AnswerForm(NoAnswerForm):
     _index_widget = NoAnswerForm._index_widget
     question = NoAnswerForm.question
-    text = StringField(lazy_gettext("Answer"), validators=[DataRequired()])
+    text = StringField(_("Answer"), validators=[DataRequired()])
     start = StringField(
-        lazy_gettext("Start"),
+        _("Start"),
         widget=_index_widget,
         validators=[InputRequired()],
     )
     end = StringField(
-        lazy_gettext("End"),
+        _("End"),
         widget=_index_widget,
         validators=[InputRequired()],
     )
 
 
 class DataForm(FlaskForm):
-    title = StringField(lazy_gettext("Title"), validators=[DataRequired()])
+    duplicate_title_error = _(
+        "The title is already recorded. Work on something else, perhaps?"
+    )
+    title = StringField(_("Title"), validators=[DataRequired()])
     context = TextAreaField(
-        lazy_gettext("Context"),
+        _("Context"),
         render_kw={
             "minlength": 800,
             "rows": 12,
@@ -51,18 +54,14 @@ class DataForm(FlaskForm):
         min_entries=3,
         max_entries=3,
     )
-    sign = StringField(lazy_gettext("By"))
-    submit = SubmitField(lazy_gettext("Submit"))
+    sign = StringField(_("By"))
+    submit = SubmitField(_("Submit"))
 
     def validate_title(self, field):
         if Data.query.filter_by(title=field.data).first():
-            raise ValidationError(
-                field.gettext(
-                    "The title is already recorded. Work on something else, perhaps?"
-                )
-            )
+            raise ValidationError(self.duplicate_title_error)
 
-    def validate(self):
+    def validate(self, force_unique_questions=False):
         if not FlaskForm.validate(self):
             return False
         is_valid = True
@@ -74,22 +73,27 @@ class DataForm(FlaskForm):
                 != self.context.data[int(pair.start.data) : int(pair.end.data)]
             ):
                 pair.text.errors.append(
-                    "Field must be equal to a slice from the start index"
-                    " to the end index of the context, %s." % self.context.name
+                    _(
+                        "Field must be equal to a slice from the start index to the end index of the context, %s."
+                    )
+                    % self.context.name
                 )
                 is_valid = False
         # Check questions uniqueness
-        # Since it does not matter much, it is disabled by default
-        # both = [*self.answerables, *self.impossibles]
-        # r_both = range(len(both))
-        # for i in r_both:
-        #     for j in r_both:
-        #         if i != j and both[i].question == both[j].question:
-        #             both[i].question.errors.append(
-        #                 "Use unique questions; Question "
-        #                 "{} is the same as {}.".format(both[i].question, both[j].question)
-        #             )
-        #             is_valid = False
+        if force_unique_questions:
+            # Since it does not matter much, it is disabled by default
+            both = [*self.answerables, *self.impossibles]
+            r_both = range(len(both))
+            for i in r_both:
+                for j in r_both:
+                    if i != j and both[i].question == both[j].question:
+                        both[i].question.errors.append(
+                            _(
+                                "Use unique questions; Question %(first)s is the same as %(second)s."
+                            )
+                            % dict(first=both[i].question, second=both[j].question)
+                        )
+                        is_valid = False
         return is_valid
 
     def commit(self, nullify=False):
