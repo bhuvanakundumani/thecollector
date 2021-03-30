@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% set title = _("Test dataset guideline") %}
+{% block content %}
+
+{# راستچین #}
+<p>
+    این فرم در راستای تهیه دیتاستی برای پرسش و پاسخ به زبان پارسی است.
+    برای کمک به جمع‌آوری کافی است فرم را پر کرده و آنرا ثبت کنید.
+</p>
+<p>
+    متأسفانه راهنمای فرم تست همچنان در حال نوشته شدن است.  اگر نمی‌دانید باید
+    چگونه فرم تست را پر کنید بهتر است با فرم اصلی در پایین صفحه مراجعه کنید و با
+    پر کردن آن ما را یاری کنید.
+</p>
+
+<div class="btn-group mb-3 w-100" role="group">
+    <a href="{{ url_for('form') }}" class="btn btn-primary">{{ _('The form') }}</a>
+    <div class="d-flex">
+        <a href="{{ url_for('test_form') }}" class="btn btn-secondary">{{ _('Test dataset form') }}</a>
+    </div>
+</div>
+{% endblock content %}

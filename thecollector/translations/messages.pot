@@ -16,58 +16,59 @@ msgstr ""
 "Generated-By: Babel 2.9.0\n"
 
 #: forms.py:13
-msgid "Question"
-msgstr ""
-
-#: forms.py:19
-msgid "Answer"
-msgstr ""
-
-#: forms.py:21
-msgid "Start"
-msgstr ""
-
-#: forms.py:26
-msgid "End"
-msgstr ""
-
-#: forms.py:33
 msgid "The title is already recorded. Work on something else, perhaps?"
 msgstr ""
 
-#: forms.py:36
+#: forms.py:22
+msgid "Question"
+msgstr ""
+
+#: forms.py:27
+msgid "Answer"
+msgstr ""
+
+#: forms.py:29
+msgid "Start"
+msgstr ""
+
+#: forms.py:34
+msgid "End"
+msgstr ""
+
+#: forms.py:49
 msgid "Title"
 msgstr ""
 
-#: forms.py:38
+#: forms.py:51
 msgid "Context"
 msgstr ""
 
-#: forms.py:58
+#: forms.py:71
 msgid "By"
 msgstr ""
 
-#: forms.py:59
+#: forms.py:72
 msgid "Submit"
 msgstr ""
 
-#: forms.py:77
+#: forms.py:93
 #, python-format
 msgid ""
 "Field must be equal to a slice from the start index to the end index of "
 "the context, %s."
 msgstr ""
 
-#: forms.py:92
+#: forms.py:108
 #, python-format
 msgid "Use unique questions; Question %(first)s is the same as %(second)s."
 msgstr ""
 
-#: routes.py:14
+#: routes.py:14 routes.py:27
 msgid "Recorded"
 msgstr ""
 
 #: templates/form.html:2 templates/guideline.html:111
+#: templates/test_guideline.html:17
 msgid "The form"
 msgstr ""
 
@@ -99,23 +100,31 @@ msgstr ""
 msgid "Pair"
 msgstr ""
 
-#: templates/form.html:81
+#: templates/form.html:83
 msgid "Selected in the context"
 msgstr ""
 
-#: templates/form.html:83
+#: templates/form.html:85
 msgid "Pre"
 msgstr ""
 
-#: templates/form.html:84
+#: templates/form.html:86
 msgid "Next"
 msgstr ""
 
-#: templates/form.html:102
+#: templates/form.html:105
 msgid "Impossible questions"
 msgstr ""
 
 #: templates/layout.html:60
 msgid "Also available in"
+msgstr ""
+
+#: templates/test_guideline.html:2
+msgid "Test dataset guideline"
+msgstr ""
+
+#: templates/test_guideline.html:19
+msgid "Test dataset form"
 msgstr ""
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: MYDavoodeh@gmail.com\n"
-"POT-Creation-Date: 2021-03-31 00:32+0430\n"
+"POT-Creation-Date: 2021-02-05 05:15+0330\n"
 "PO-Revision-Date: 2021-02-05 19:14+0330\n"
 "Last-Translator: M. Yas. Davoodeh <MYDavoodeh@gmail.com>\n"
 "Language: fa\n"
@@ -19,60 +19,61 @@ msgstr ""
 "Generated-By: Babel 2.9.0\n"
 
 #: forms.py:13
-msgid "Question"
-msgstr "سؤال"
-
-#: forms.py:19
-msgid "Answer"
-msgstr "جواب"
-
-#: forms.py:21
-msgid "Start"
-msgstr "شروع"
-
-#: forms.py:26
-msgid "End"
-msgstr "پایان"
-
-#: forms.py:33
 msgid "The title is already recorded. Work on something else, perhaps?"
 msgstr "این عنوان قبلاً ثبت شده. ممکن است روی عنوان دیگری کار کنید؟"
 
-#: forms.py:36
+#: forms.py:22
+msgid "Question"
+msgstr "سؤال"
+
+#: forms.py:27
+msgid "Answer"
+msgstr "جواب"
+
+#: forms.py:29
+msgid "Start"
+msgstr "شروع"
+
+#: forms.py:34
+msgid "End"
+msgstr "پایان"
+
+#: forms.py:49
 msgid "Title"
 msgstr "عنوان"
 
-#: forms.py:38
+#: forms.py:51
 msgid "Context"
 msgstr "بدنه"
 
-#: forms.py:58
+#: forms.py:71
 msgid "By"
 msgstr "توسط"
 
-#: forms.py:59
+#: forms.py:72
 msgid "Submit"
 msgstr "ثبت"
 
-#: forms.py:77
+#: forms.py:93
 #, python-format
 msgid ""
 "Field must be equal to a slice from the start index to the end index of "
 "the context, %s."
 msgstr "فیلد باید برابر با بخشی از اندیس شروع تا اندیس پایان بدنه، %s، باشد."
 
-#: forms.py:92
+#: forms.py:108
 #, python-format
 msgid "Use unique questions; Question %(first)s is the same as %(second)s."
 msgstr ""
 "از سؤالات یکتا استفاده کنید؛ سؤال %(first)s دقیقاً برابر با %(second)s "
 "است."
 
-#: routes.py:14
+#: routes.py:14 routes.py:27
 msgid "Recorded"
 msgstr "ثبت شد"
 
 #: templates/form.html:2 templates/guideline.html:111
+#: templates/test_guideline.html:17
 msgid "The form"
 msgstr "فرم"
 
@@ -104,23 +105,31 @@ msgstr "محتوایی در اینجا..."
 msgid "Pair"
 msgstr "جفت"
 
-#: templates/form.html:81
+#: templates/form.html:83
 msgid "Selected in the context"
 msgstr "در بدنه"
 
-#: templates/form.html:83
+#: templates/form.html:85
 msgid "Pre"
 msgstr "قبلی"
 
-#: templates/form.html:84
+#: templates/form.html:86
 msgid "Next"
 msgstr "بعدی"
 
-#: templates/form.html:102
+#: templates/form.html:105
 msgid "Impossible questions"
 msgstr "سؤالات غیرممکن"
 
 #: templates/layout.html:60
 msgid "Also available in"
 msgstr "همچنین در"
+
+#: templates/test_guideline.html:2
+msgid "Test dataset guideline"
+msgstr "راهنمای دیتاست تست"
+
+#: templates/test_guideline.html:19
+msgid "Test dataset form"
+msgstr "فرم دیتاست تست"
 

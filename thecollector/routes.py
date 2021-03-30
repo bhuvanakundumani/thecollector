@@ -1,5 +1,5 @@
 from .app import app
-from .forms import DataForm
+from .forms import DataForm, TestDataForm
 from .db.models import Data
 
 from flask import render_template, flash, request, jsonify
@@ -19,9 +19,28 @@ def form():
     )
 
 
+@app.route("/test/", methods=["GET", "POST"])
+def test_form():
+    form = TestDataForm()
+    if form.validate_on_submit():
+        form.commit(nullify=True)
+        flash(_("Recorded"), "success")
+    return render_template(
+        "form.html",
+        form=form,
+        guideline="test_guideline",
+        sign=request.args.get("sign"),
+    )
+
+
 @app.route("/guideline")
 def guideline():
     return render_template("guideline.html")
+
+
+@app.route("/test/guideline")
+def test_guideline():
+    return render_template("test_guideline.html")
 
 
 @app.route("/api/data_len")
