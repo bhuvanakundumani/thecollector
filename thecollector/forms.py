@@ -36,11 +36,11 @@ class DataForm(FlaskForm):
     context = TextAreaField(
         _("Context"),
         render_kw={
-            "minlength": 800,
+            "minlength": 900,
             "rows": 12,
         },
         validators=[
-            Length(min=800),
+            Length(min=900),
             DataRequired(),
         ],
     )

@@ -13,6 +13,8 @@
 - [ ] Prevent spamming "check title" button and make it automatic.
 - [ ] Disable LastPass in the form.
 * Applied
+** r10
+- [X] Extend context length to 900
 ** r9
 - [X] Add a "check title" feature.
 - [X] Remove helpers.
