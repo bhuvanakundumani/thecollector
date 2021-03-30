@@ -1,6 +1,13 @@
-/**/__pycache__
-/**/venv
-/static/data/
-site.db
+__pycache__
+venv
+
+*.db
 env.json
 temp.*
+todo.*
+
+/*.json
+
+*/static/
+*/
+*/db/*.json

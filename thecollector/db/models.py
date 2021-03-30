@@ -1,4 +1,5 @@
-from thecollector import db
+from . import db
+
 from sqlalchemy_serializer import SerializerMixin
 
 

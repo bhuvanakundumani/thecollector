@@ -1,10 +1,11 @@
+from .db import db
+from .db.models import Data
+
+from flask_babel import lazy_gettext as _
 from flask_wtf import FlaskForm
 from wtforms import SubmitField, StringField, TextAreaField, FormField, Form, FieldList
-from wtforms.widgets.html5 import NumberInput
 from wtforms.validators import ValidationError, DataRequired, InputRequired, Length
-from thecollector import db
-from thecollector.models import Data
-from flask_babel import lazy_gettext as _
+from wtforms.widgets.html5 import NumberInput
 
 
 class NoAnswerForm(Form):

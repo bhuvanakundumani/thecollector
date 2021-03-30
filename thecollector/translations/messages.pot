@@ -15,55 +15,55 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.0\n"
 
-#: forms.py:12
+#: forms.py:13
 msgid "Question"
 msgstr ""
 
-#: forms.py:18
+#: forms.py:19
 msgid "Answer"
 msgstr ""
 
-#: forms.py:20
+#: forms.py:21
 msgid "Start"
 msgstr ""
 
-#: forms.py:25
+#: forms.py:26
 msgid "End"
 msgstr ""
 
-#: forms.py:32
+#: forms.py:33
 msgid "The title is already recorded. Work on something else, perhaps?"
 msgstr ""
 
-#: forms.py:35
+#: forms.py:36
 msgid "Title"
 msgstr ""
 
-#: forms.py:37
+#: forms.py:38
 msgid "Context"
 msgstr ""
 
-#: forms.py:57
+#: forms.py:58
 msgid "By"
 msgstr ""
 
-#: forms.py:58
+#: forms.py:59
 msgid "Submit"
 msgstr ""
 
-#: forms.py:76
+#: forms.py:77
 #, python-format
 msgid ""
 "Field must be equal to a slice from the start index to the end index of "
 "the context, %s."
 msgstr ""
 
-#: forms.py:91
+#: forms.py:92
 #, python-format
 msgid "Use unique questions; Question %(first)s is the same as %(second)s."
 msgstr ""
 
-#: routes.py:13
+#: routes.py:14
 msgid "Recorded"
 msgstr ""
 

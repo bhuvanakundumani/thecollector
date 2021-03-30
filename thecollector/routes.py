@@ -1,6 +1,7 @@
-from thecollector import app
-from thecollector.forms import DataForm
-from thecollector.models import Data
+from .app import app
+from .forms import DataForm
+from .db.models import Data
+
 from flask import render_template, flash, request, jsonify
 from flask_babel import gettext as _
 
@@ -31,4 +32,4 @@ def data_len():
 @app.route("/api/title_match/")
 @app.route("/api/title_match/<string:title>")
 def title_match(title=None):
-    return jsonify(Data.col_startswith('title', title, exact=True))
+    return jsonify(Data.col_startswith("title", title, exact=True))

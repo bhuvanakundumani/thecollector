@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: MYDavoodeh@gmail.com\n"
-"POT-Creation-Date: 2021-02-20 00:25+0330\n"
+"POT-Creation-Date: 2021-03-31 00:32+0430\n"
 "PO-Revision-Date: 2021-02-05 19:14+0330\n"
 "Last-Translator: M. Yas. Davoodeh <MYDavoodeh@gmail.com>\n"
 "Language: fa\n"
@@ -18,57 +18,57 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.0\n"
 
-#: forms.py:12
+#: forms.py:13
 msgid "Question"
 msgstr "سؤال"
 
-#: forms.py:18
+#: forms.py:19
 msgid "Answer"
 msgstr "جواب"
 
-#: forms.py:20
+#: forms.py:21
 msgid "Start"
 msgstr "شروع"
 
-#: forms.py:25
+#: forms.py:26
 msgid "End"
 msgstr "پایان"
 
-#: forms.py:32
+#: forms.py:33
 msgid "The title is already recorded. Work on something else, perhaps?"
 msgstr "این عنوان قبلاً ثبت شده. ممکن است روی عنوان دیگری کار کنید؟"
 
-#: forms.py:35
+#: forms.py:36
 msgid "Title"
 msgstr "عنوان"
 
-#: forms.py:37
+#: forms.py:38
 msgid "Context"
 msgstr "بدنه"
 
-#: forms.py:57
+#: forms.py:58
 msgid "By"
 msgstr "توسط"
 
-#: forms.py:58
+#: forms.py:59
 msgid "Submit"
 msgstr "ثبت"
 
-#: forms.py:76
+#: forms.py:77
 #, python-format
 msgid ""
 "Field must be equal to a slice from the start index to the end index of "
 "the context, %s."
 msgstr "فیلد باید برابر با بخشی از اندیس شروع تا اندیس پایان بدنه، %s، باشد."
 
-#: forms.py:91
+#: forms.py:92
 #, python-format
 msgid "Use unique questions; Question %(first)s is the same as %(second)s."
 msgstr ""
 "از سؤالات یکتا استفاده کنید؛ سؤال %(first)s دقیقاً برابر با %(second)s "
 "است."
 
-#: routes.py:13
+#: routes.py:14
 msgid "Recorded"
 msgstr "ثبت شد"
 
