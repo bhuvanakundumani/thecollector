@@ -199,8 +199,8 @@ locale = ["Babel (>=1.3)"]
 
 [metadata]
 lock-version = "1.1"
-python-versions = "^3.9"
-content-hash = "e157d1f2b3c492f34148adc750fd522cfb361eeb3b3cda0d79d2721635703f7e"
+python-versions = "^3.8"
+content-hash = "1d5a8c76472b7d4fa8f13b8d15175f89450c560fdd2fe65844ba778930bd0b81"
 
 [metadata.files]
 babel = [
