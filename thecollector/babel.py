@@ -1,7 +1,10 @@
-from .app import app
+from .app import app, config
 
 from flask import request
 from flask_babel import Babel
+
+app.config["BABEL_DEFAULT_LOCALE"] = config.get("BABEL_DEFAULT_LOCALE")
+app.config["LANGUAGES"] = config.get("LANGUAGES")
 
 babel = Babel(app)
 
