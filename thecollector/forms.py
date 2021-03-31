@@ -1,3 +1,5 @@
+from typing import Dict
+
 from .db import db
 from .db.models import Data
 
@@ -9,7 +11,7 @@ from wtforms.validators import ValidationError, DataRequired, InputRequired, Len
 from wtforms.widgets.html5 import NumberInput
 
 
-errors: dict[str, str] = {
+errors: Dict[str, str] = {
     "duplicate_title_error": _(
         "The title is already recorded. Work on something else, perhaps?"
     )
