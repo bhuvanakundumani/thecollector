@@ -165,9 +165,8 @@
         function getIndicesOf(searchStr, str, caseSensitive) {
             {# Helper function for string search #}
             var searchStrLen = searchStr.length;
-            if (searchStrLen == 0) {
+            if (searchStrLen == 0)
                 return [];
-            }
             var startIndex = 0, index, indices = [];
             if (!caseSensitive) {
                 str = str.toLowerCase();
@@ -198,7 +197,6 @@
             context.value = context.value.replace(/\s?\n/g, " ");
             answer_fields.forEach(function(el, id) {
                 update_tipline(id);
-                update_index(id);
             });
             {% if form.context.render_kw.minlength %}
                 document.getElementById('contextcount').innerHTML = context.value.length;
