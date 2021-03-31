@@ -29,6 +29,7 @@ def test_form():
         "form.html",
         form=form,
         guideline="test_guideline",
+        title=_("Test dataset form"),
         sign=request.args.get("sign"),
     )
 

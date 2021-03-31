@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% set title = _('The form') %}
+{% set title = title if title else _('The form') %}
 {% block content %}
 <div class="btn-group mb-3 w-100" role="group">
     <a href="{{ url_for(guideline if guideline else 'guideline') }}" class="btn btn-info">{{ _('Guideline') }}</a>
