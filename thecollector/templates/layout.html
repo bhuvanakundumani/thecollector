@@ -54,7 +54,7 @@
                                 <h1>{{ title }}</h1>
                             </div>
                             {% endif %}
-                            {% if other_locales %}
+                            {% if not lock_locales and other_locales %}
                                 <div class="col">
                                     <div class="input-group input-group-sm float-end mw">
                                         <span class="input-group-text">{{ _('Also available in') }}</span>
