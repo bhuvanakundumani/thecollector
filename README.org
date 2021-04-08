@@ -1,0 +1,30 @@
+* Starting a local version
+
+To clone the repo and initialize it (using [[https://python-poetry.org/][Poetry]]), run:
+#+BEGIN_SRC sh
+git clone https://github.com/davoodeh/thecollector
+cd thecollector
+poetry install
+#+END_SRC
+
+To set required environmental variables, simply use the =env.example.json= file as below:
+#+BEGIN_SRC sh
+cp thecollector/env.example.json thecollector/env.json
+#+END_SRC
+
+Then replace the =SECRET= with a value created by something like the command below:
+#+BEGIN_SRC sh
+python -c 'import os, base64; print(base64.b64encode(os.urandom(16)).decode("utf-8"))'
+#+END_SRC
+
+Finally, the server can be run =-m=:
+#+BEGIN_SRC sh
+poetry run python -m thecollector
+#+END_SRC
+
+After that, your instance should be on [[http://127.0.0.1:5000/]].
+
+For more tools/testing you can try checking out =local-= branches, like so:
+#+BEGIN_SRC sh
+git checkout local-$branch
+#+END_SRC
