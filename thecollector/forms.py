@@ -39,7 +39,11 @@ class AnswerForm(Form):
     )
 
 
-def data_form_generator(answers_count: int = 1) -> object:
+def data_form_generator(
+    answers_count: int = 1,
+    answerables_count: int = 7,
+    impossibles_count: int = 3,
+) -> object:
     class PairedAnswerForm(QuestionForm):
         answers = FieldList(
             FormField(AnswerForm),
@@ -62,13 +66,13 @@ def data_form_generator(answers_count: int = 1) -> object:
         )
         answerables = FieldList(
             FormField(PairedAnswerForm),
-            min_entries=7,
-            max_entries=7,
+            min_entries=answerables_count,
+            max_entries=answerables_count,
         )
         impossibles = FieldList(
             FormField(QuestionForm),
-            min_entries=3,
-            max_entries=3,
+            min_entries=impossibles_count,
+            max_entries=impossibles_count,
         )
         sign = StringField(_("By"))
         submit = SubmitField(_("Submit"))
@@ -167,10 +171,34 @@ def data_form_generator(answers_count: int = 1) -> object:
                 if nullify:
                     self.nullify()
 
+        def update_pair(self, record: db.Model, nullify: bool = False):
+            record.title = self.title.data
+            record.context = self.context.data
+            record.sign = self.sign.data
+            if record.is_impossible:
+                pair = self.impossibles[0]
+                record.question = pair.question.data
+            else:
+                pair = self.answerables[0]
+                record.question = pair.question.data
+                pair = pair.answers[0]
+                record.answer_text = pair.text.data
+                record.answer_start = pair.start.data
+                record.answer_end = pair.end.data
+            try:
+                db.session.commit()
+            except Exception as e:
+                raise e
+            else:
+                # This else clause ensures data security for the client. In the
+                # case, the commition fails it won't run.
+                if nullify:
+                    self.nullify()
+
     return DataForm
 
 
 # Final forms
 
-DataForm = data_form_generator(1)
-TestDataForm = data_form_generator(2)
+DataForm = data_form_generator(answers_count=1)
+TestDataForm = data_form_generator(answers_count=2)
