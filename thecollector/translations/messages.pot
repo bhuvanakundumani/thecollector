@@ -15,50 +15,50 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.0\n"
 
-#: forms.py:13
+#: forms.py:15
 msgid "The title is already recorded. Work on something else, perhaps?"
 msgstr ""
 
-#: forms.py:22
+#: forms.py:24
 msgid "Question"
 msgstr ""
 
-#: forms.py:27
+#: forms.py:29
 msgid "Answer"
 msgstr ""
 
-#: forms.py:29
+#: forms.py:31
 msgid "Start"
 msgstr ""
 
-#: forms.py:34
+#: forms.py:36
 msgid "End"
 msgstr ""
 
-#: forms.py:49
+#: forms.py:55
 msgid "Title"
 msgstr ""
 
-#: forms.py:51
+#: forms.py:57
 msgid "Context"
 msgstr ""
 
-#: forms.py:71
+#: forms.py:77
 msgid "By"
 msgstr ""
 
-#: forms.py:72
+#: forms.py:78
 msgid "Submit"
 msgstr ""
 
-#: forms.py:93
+#: forms.py:99
 #, python-format
 msgid ""
 "Field must be equal to a slice from the start index to the end index of "
 "the context, %s."
 msgstr ""
 
-#: forms.py:108
+#: forms.py:114
 #, python-format
 msgid "Use unique questions; Question %(first)s is the same as %(second)s."
 msgstr ""
@@ -67,12 +67,16 @@ msgstr ""
 msgid "Recorded"
 msgstr ""
 
-#: templates/form.html:2 templates/guideline.html:111
-#: templates/test_guideline.html:17
+#: routes.py:32 templates/test_guideline.html:20
+msgid "Test dataset form"
+msgstr ""
+
+#: templates/form.html:2 templates/guideline.html:112
+#: templates/test_guideline.html:18
 msgid "The form"
 msgstr ""
 
-#: templates/form.html:5 templates/guideline.html:2
+#: templates/form.html:5 templates/guideline.html:3
 msgid "Guideline"
 msgstr ""
 
@@ -80,39 +84,43 @@ msgstr ""
 msgid "Toggle direction"
 msgstr ""
 
-#: templates/form.html:16 templates/form.html:23
+#: templates/form.html:15
+msgid "Don't change if you don't know what's it"
+msgstr ""
+
+#: templates/form.html:15
 msgid "A sign that you wrote this..."
 msgstr ""
 
-#: templates/form.html:29
+#: templates/form.html:30
 msgid "(Wikipedia) Title for your content..."
 msgstr ""
 
-#: templates/form.html:30
+#: templates/form.html:32
 msgid "Check"
 msgstr ""
 
-#: templates/form.html:40 templates/form.html:47
+#: templates/form.html:43 templates/form.html:50
 msgid "Some story here..."
 msgstr ""
 
-#: templates/form.html:56
+#: templates/form.html:60
 msgid "Pair"
 msgstr ""
 
-#: templates/form.html:83
+#: templates/form.html:87
 msgid "Selected in the context"
 msgstr ""
 
-#: templates/form.html:85
+#: templates/form.html:89
 msgid "Pre"
 msgstr ""
 
-#: templates/form.html:86
+#: templates/form.html:90
 msgid "Next"
 msgstr ""
 
-#: templates/form.html:105
+#: templates/form.html:111
 msgid "Impossible questions"
 msgstr ""
 
@@ -120,11 +128,7 @@ msgstr ""
 msgid "Also available in"
 msgstr ""
 
-#: templates/test_guideline.html:2
+#: templates/test_guideline.html:3
 msgid "Test dataset guideline"
-msgstr ""
-
-#: templates/test_guideline.html:19
-msgid "Test dataset form"
 msgstr ""
 

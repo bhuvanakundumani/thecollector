@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: MYDavoodeh@gmail.com\n"
-"POT-Creation-Date: 2021-02-05 05:15+0330\n"
+"POT-Creation-Date: 2021-04-08 17:08+0430\n"
 "PO-Revision-Date: 2021-02-05 19:14+0330\n"
 "Last-Translator: M. Yas. Davoodeh <MYDavoodeh@gmail.com>\n"
 "Language: fa\n"
@@ -18,50 +18,50 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.0\n"
 
-#: forms.py:13
+#: forms.py:15
 msgid "The title is already recorded. Work on something else, perhaps?"
 msgstr "این عنوان قبلاً ثبت شده. ممکن است روی عنوان دیگری کار کنید؟"
 
-#: forms.py:22
+#: forms.py:24
 msgid "Question"
 msgstr "سؤال"
 
-#: forms.py:27
+#: forms.py:29
 msgid "Answer"
 msgstr "جواب"
 
-#: forms.py:29
+#: forms.py:31
 msgid "Start"
 msgstr "شروع"
 
-#: forms.py:34
+#: forms.py:36
 msgid "End"
 msgstr "پایان"
 
-#: forms.py:49
+#: forms.py:55
 msgid "Title"
 msgstr "عنوان"
 
-#: forms.py:51
+#: forms.py:57
 msgid "Context"
 msgstr "بدنه"
 
-#: forms.py:71
+#: forms.py:77
 msgid "By"
 msgstr "توسط"
 
-#: forms.py:72
+#: forms.py:78
 msgid "Submit"
 msgstr "ثبت"
 
-#: forms.py:93
+#: forms.py:99
 #, python-format
 msgid ""
 "Field must be equal to a slice from the start index to the end index of "
 "the context, %s."
 msgstr "فیلد باید برابر با بخشی از اندیس شروع تا اندیس پایان بدنه، %s، باشد."
 
-#: forms.py:108
+#: forms.py:114
 #, python-format
 msgid "Use unique questions; Question %(first)s is the same as %(second)s."
 msgstr ""
@@ -72,12 +72,16 @@ msgstr ""
 msgid "Recorded"
 msgstr "ثبت شد"
 
-#: templates/form.html:2 templates/guideline.html:111
-#: templates/test_guideline.html:17
+#: routes.py:32 templates/test_guideline.html:20
+msgid "Test dataset form"
+msgstr "فرم دیتاست تست"
+
+#: templates/form.html:2 templates/guideline.html:112
+#: templates/test_guideline.html:18
 msgid "The form"
 msgstr "فرم"
 
-#: templates/form.html:5 templates/guideline.html:2
+#: templates/form.html:5 templates/guideline.html:3
 msgid "Guideline"
 msgstr "راهنما"
 
@@ -85,39 +89,43 @@ msgstr "راهنما"
 msgid "Toggle direction"
 msgstr "تغییر جهت"
 
-#: templates/form.html:16 templates/form.html:23
+#: templates/form.html:15
+msgid "Don't change if you don't know what's it"
+msgstr "اگر نمی‌دانید این چیست آنرا ویرایش نکنید"
+
+#: templates/form.html:15
 msgid "A sign that you wrote this..."
 msgstr "یک نشان که شما این را نوشتید..."
 
-#: templates/form.html:29
+#: templates/form.html:30
 msgid "(Wikipedia) Title for your content..."
 msgstr "عنوان (ویکی‌پدیای) محتوای شما..."
 
-#: templates/form.html:30
+#: templates/form.html:32
 msgid "Check"
 msgstr "بررسی"
 
-#: templates/form.html:40 templates/form.html:47
+#: templates/form.html:43 templates/form.html:50
 msgid "Some story here..."
 msgstr "محتوایی در اینجا..."
 
-#: templates/form.html:56
+#: templates/form.html:60
 msgid "Pair"
 msgstr "جفت"
 
-#: templates/form.html:83
+#: templates/form.html:87
 msgid "Selected in the context"
 msgstr "در بدنه"
 
-#: templates/form.html:85
+#: templates/form.html:89
 msgid "Pre"
 msgstr "قبلی"
 
-#: templates/form.html:86
+#: templates/form.html:90
 msgid "Next"
 msgstr "بعدی"
 
-#: templates/form.html:105
+#: templates/form.html:111
 msgid "Impossible questions"
 msgstr "سؤالات غیرممکن"
 
@@ -125,11 +133,7 @@ msgstr "سؤالات غیرممکن"
 msgid "Also available in"
 msgstr "همچنین در"
 
-#: templates/test_guideline.html:2
+#: templates/test_guideline.html:3
 msgid "Test dataset guideline"
 msgstr "راهنمای دیتاست تست"
-
-#: templates/test_guideline.html:19
-msgid "Test dataset form"
-msgstr "فرم دیتاست تست"
 
