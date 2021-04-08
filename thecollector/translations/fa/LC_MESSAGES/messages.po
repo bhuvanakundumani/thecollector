@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: MYDavoodeh@gmail.com\n"
-"POT-Creation-Date: 2021-04-08 17:08+0430\n"
+"POT-Creation-Date: 2021-04-08 17:17+0430\n"
 "PO-Revision-Date: 2021-02-05 19:14+0330\n"
 "Last-Translator: M. Yas. Davoodeh <MYDavoodeh@gmail.com>\n"
 "Language: fa\n"
@@ -68,13 +68,17 @@ msgstr ""
 "از سؤالات یکتا استفاده کنید؛ سؤال %(first)s دقیقاً برابر با %(second)s "
 "است."
 
-#: routes.py:14 routes.py:27
+#: routes.py:14 routes.py:27 routes.py:45
 msgid "Recorded"
 msgstr "ثبت شد"
 
 #: routes.py:32 templates/test_guideline.html:20
 msgid "Test dataset form"
 msgstr "فرم دیتاست تست"
+
+#: routes.py:62
+msgid "Edit entry form"
+msgstr "فرم ویرایش داده"
 
 #: templates/form.html:2 templates/guideline.html:112
 #: templates/test_guideline.html:18

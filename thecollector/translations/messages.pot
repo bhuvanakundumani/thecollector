@@ -63,12 +63,16 @@ msgstr ""
 msgid "Use unique questions; Question %(first)s is the same as %(second)s."
 msgstr ""
 
-#: routes.py:14 routes.py:27
+#: routes.py:14 routes.py:27 routes.py:45
 msgid "Recorded"
 msgstr ""
 
 #: routes.py:32 templates/test_guideline.html:20
 msgid "Test dataset form"
+msgstr ""
+
+#: routes.py:62
+msgid "Edit entry form"
 msgstr ""
 
 #: templates/form.html:2 templates/guideline.html:112

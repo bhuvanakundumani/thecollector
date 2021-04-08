@@ -202,3 +202,18 @@ def data_form_generator(
 
 DataForm = data_form_generator(answers_count=1)
 TestDataForm = data_form_generator(answers_count=2)
+
+IdAnswerableForm = data_form_generator(
+    answers_count=1,
+    answerables_count=1,
+    impossibles_count=0,
+)
+IdAnswerableForm.commit = IdAnswerableForm.update_pair
+del IdAnswerableForm.validate_title
+IdImpossibleForm = data_form_generator(
+    answers_count=1,
+    answerables_count=0,
+    impossibles_count=1,
+)
+IdImpossibleForm.commit = IdAnswerableForm.update_pair
+del IdImpossibleForm.validate_title

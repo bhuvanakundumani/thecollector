@@ -1,8 +1,8 @@
 from .app import app
-from .forms import DataForm, TestDataForm
+from .forms import DataForm, TestDataForm, IdImpossibleForm, IdAnswerableForm
 from .db.models import Data
 
-from flask import render_template, flash, request, jsonify
+from flask import render_template, flash, request, jsonify, abort
 from flask_babel import gettext as _
 
 
@@ -31,6 +31,37 @@ def test_form():
         guideline="test_guideline",
         title=_("Test dataset form"),
         sign=request.args.get("sign"),
+    )
+
+
+@app.route("/edit/<int:id>", methods=["GET", "POST"])
+def edit_id(id):
+    rec = Data.record(id)
+    if rec == []:
+        return abort(404)
+    form = IdImpossibleForm() if rec.is_impossible else IdAnswerableForm()
+    if form.validate_on_submit():
+        form.commit(record=rec)
+        flash(_("Recorded"), "success")
+    form.title.data = rec.title
+    form.context.data = rec.context
+    form.sign.data = rec.sign
+    if rec.is_impossible:
+        pair = form.impossibles[0]
+        pair.question.data = rec.question
+    else:
+        pair = form.answerables[0]
+        pair.question.data = rec.question
+        pair = pair.answers[0]
+        pair.text.data = rec.answer_text
+        pair.start.data = rec.answer_start
+        pair.end.data = rec.answer_end
+    return render_template(
+        "form.html",
+        form=form,
+        title=_("Edit entry form"),
+        sign=rec.sign,
+        editable_sign=True,
     )
 
 
