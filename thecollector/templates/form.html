@@ -1,33 +1,36 @@
 {% extends "layout.html" %}
 {% set title = title if title else _('The form') %}
 {% block content %}
-<div class="btn-group mb-3 w-100" role="group">
-    <a href="{{ url_for(guideline if guideline else 'guideline') }}" class="btn btn-info">{{ _('Guideline') }}</a>
-    <div class="d-flex">
-        <button id="rtl" type="button" class="btn btn-secondary" data-bs-toggle="button" autocomplete="off" aria-pressed="false">{{ _("Toggle direction") }}</button>
+    <div class="btn-group mb-3 w-100" role="group">
+        <a href="{{ url_for(guideline if guideline else 'guideline') }}" class="btn btn-info">{{ _('Guideline') }}</a>
+        <div class="d-flex">
+            <button id="rtl" type="button" class="btn btn-secondary" data-bs-toggle="button" autocomplete="off" aria-pressed="false">{{ _("Toggle direction") }}</button>
+        </div>
     </div>
-</div>
     <form method="{{ method if method else 'POST' }}" action="{{ action if action else '' }}" autocomplete="off" id="dataform">
         {{ form.hidden_tag() }}
-        {% if sign %}
+        {% if sign or editable_sign %}
             <div class="input-group mb-3">
                 {{ form.sign.label(class="input-group-text") }}
+                {% set editable = {"placeholder": _("Don't change if you don't know what's it")} if editable_sign else {"readonly": "", "placeholder": _("A sign that you wrote this...")} %}
                 {% if form.sign.errors %}
-                    {{ form.sign(value=sign, readonly="", placeholder=_("A sign that you wrote this..."), class="is-invalid form-control", aria_describedby="%sfeedback"%form.sign.id) }}
+                    {{ form.sign(value=sign, class="is-invalid form-control", aria_describedby="%sfeedback"%form.sign.id, **editable) }}
                     <div id="{{ form.sign.id }}feedback" class="d-block invalid-feedback">
                         {% for error in form.sign.errors %}
                             <span>{{ error }}</span>&nbsp;
                         {% endfor %}
                     </div>
                 {% else %}
-                    {{ form.sign(value=sign, readonly="", placeholder=_("A sign that you wrote this..."), class="form-control") }}
+                    {{ form.sign(value=sign, class="form-control", **editable) }}
                 {% endif %}
             </div>
         {% endif %}
         <div class="input-group mb-3">
             {{ form.title.label(class="input-group-text") }}
             {{ form.title(placeholder=_("(Wikipedia) Title for your content..."), class="form-control" + (" is-invalid" if form.title.errors else ""), aria_describedby="%sfeedback"%form.title.id) }}
-            <button id="check_title" class="btn btn-outline-primary" type="button">{{ _("Check") }}</button>
+            {% if form.validate_title %}
+                <button id="check_title" class="btn btn-outline-primary" type="button">{{ _("Check") }}</button>
+            {% endif %}
             <div id="{{ form.title.id }}feedback" class="{{ 'd-block ' if form.title.errors else '' }}invalid-feedback">
                 {% for error in form.title.errors %}
                     <span>{{ error }}</span>&nbsp;
@@ -50,66 +53,16 @@
                 <span class="input-group-text ltr"><sup id="contextcount">0</sup>&frasl;<sub>{{ form.context.render_kw.minlength }}</sub></span>
             {% endif %}
         </div>
-        {% for pair in form.answerables %}
-            {% set answer_feedback = "answer%sfeedback"%loop.index %}
-            <div class="mt-3 pb-3 px-3 pt-1 border">
-                <span>{{ _("Pair") }} #{{ loop.index }}</span>
-                <div class="input-group mb-1 mt-2">
-                    {{ pair.question.label(class="input-group-text") }}
-                    {% if pair.question.errors %}
-                        {{ pair.question(class="is-invalid form-control", aria_describedby="%sfeedback"%pair.question.id) }}
-                        <div id="{{ pair.question.id }}feedback" class="d-block invalid-feedback">
-                            {% for error in pair.question.errors %}
-                                <span>{{ error }}&nbsp;</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ pair.question(class="form-control") }}
-                    {% endif %}
-                </div>
-                {% for answer in pair.answers %}
-                    <hr class="my-1" />
-                    <div class="input-group mb-1">
-                        {{ answer.text.label(class="input-group-text") }}
-                        {{ answer.text(class="form-control" + (" is-invalid" if answer.text.errors else ""), aria_describedby=answer_feedback) }}
-                    </div>
-                    <div class="input-group mb-1">
-                        {{ answer.start.label(class="input-group-text") }}
-                        {{ answer.start(class="form-control" + (" is-invalid" if answer.start.errors else "") , aria_describedby=answer_feedback) }}
-                        {{ answer.end.label(class="input-group-text") }}
-                        {{ answer.end(class="form-control" + (" is-invalid" if answer.end.errors else "") , aria_describedby=answer_feedback) }}
-                    </div>
-                    <div class="input-group input-group-sm">
-                        <span class="input-group-text">{{ _("Selected in the context") }}</span>
-                        <span readonly class="form-control" id="tipline{{ loop.index }}"></span>
-                        <button id="prev{{ loop.index }}" class="btn btn-outline-secondary" type="button">« {{ _("Pre") }}</button>
-                        <button id="next{{ loop.index }}" class="btn btn-outline-secondary" type="button">{{ _("Next") }} »</button>
-                    </div>
-                    {% if answer.text.errors or answer.start.errors or answer.end.errors %}
-                        <div id="{{ answer_feedback }}" class="d-block invalid-feedback">
-                            {% for error in answer.text.errors %}
-                                <span>{{ error }}&nbsp;</span>
-                            {% endfor %}
-                            {% for error in answer.start.errors %}
-                                <span>{{ error }}&nbsp;</span>
-                            {% endfor %}
-                            {% for error in answer.end.errors %}
-                                <span>{{ error }}&nbsp;</span>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            </div>
-        {% endfor %}
-        <div class="mt-3 pb-3 px-3 pt-1 border">
-            <span>{{ _("Impossible questions") }}</span>
-            {% for pair in form.impossibles %}
-                {% set feedback = "answer%sfeedback"%loop.index %}
-                    <div class="input-group mb-2 mt-2">
-                        {{ pair.question.label(class="input-group-text", text="{} #{}".format(pair.question.label.text, loop.index)) }}
+        {% if form.answerables.max_entries > 0 %}
+            {% for pair in form.answerables %}
+                {% set answer_feedback = "answer%sfeedback"%loop.index %}
+                <div class="mt-3 pb-3 px-3 pt-1 border">
+                    <span>{% if form.answerables.max_entries != 1 %}{{ _("Pair") }} #{{ loop.index }}{% endif %}</span>
+                    <div class="input-group mb-1 mt-2">
+                        {{ pair.question.label(class="input-group-text") }}
                         {% if pair.question.errors %}
-                            {{ pair.question(class="is-invalid form-control", aria_describedby=feedback) }}
-                            <div id="{{ feedback }}" class="d-block invalid-feedback">
+                            {{ pair.question(class="is-invalid form-control", aria_describedby="%sfeedback"%pair.question.id) }}
+                            <div id="{{ pair.question.id }}feedback" class="d-block invalid-feedback">
                                 {% for error in pair.question.errors %}
                                     <span>{{ error }}&nbsp;</span>
                                 {% endfor %}
@@ -118,8 +71,62 @@
                             {{ pair.question(class="form-control") }}
                         {% endif %}
                     </div>
+                    {% for answer in pair.answers %}
+                        <hr class="my-1" />
+                        <div class="input-group mb-1">
+                            {{ answer.text.label(class="input-group-text") }}
+                            {{ answer.text(class="form-control" + (" is-invalid" if answer.text.errors else ""), aria_describedby=answer_feedback) }}
+                        </div>
+                        <div class="input-group mb-1">
+                            {{ answer.start.label(class="input-group-text") }}
+                            {{ answer.start(class="form-control" + (" is-invalid" if answer.start.errors else "") , aria_describedby=answer_feedback) }}
+                            {{ answer.end.label(class="input-group-text") }}
+                            {{ answer.end(class="form-control" + (" is-invalid" if answer.end.errors else "") , aria_describedby=answer_feedback) }}
+                        </div>
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text">{{ _("Selected in the context") }}</span>
+                            <span readonly class="form-control" id="tipline{{ loop.index }}"></span>
+                            <button id="prev{{ loop.index }}" class="btn btn-outline-secondary" type="button">« {{ _("Pre") }}</button>
+                            <button id="next{{ loop.index }}" class="btn btn-outline-secondary" type="button">{{ _("Next") }} »</button>
+                        </div>
+                        {% if answer.text.errors or answer.start.errors or answer.end.errors %}
+                            <div id="{{ answer_feedback }}" class="d-block invalid-feedback">
+                                {% for error in answer.text.errors %}
+                                    <span>{{ error }}&nbsp;</span>
+                                {% endfor %}
+                                {% for error in answer.start.errors %}
+                                    <span>{{ error }}&nbsp;</span>
+                                {% endfor %}
+                                {% for error in answer.end.errors %}
+                                    <span>{{ error }}&nbsp;</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
             {% endfor %}
-        </div>
+        {% endif %}
+        {% if form.impossibles.max_entries > 0 %}
+            <div class="mt-3 pb-3 px-3 pt-1 border">
+                <span>{{ _("Impossible questions") }}</span>
+                {% for pair in form.impossibles %}
+                    {% set feedback = "answer%sfeedback"%loop.index %}
+                        <div class="input-group mb-2 mt-2">
+                            {{ pair.question.label(class="input-group-text", text="{} #{}".format(pair.question.label.text, loop.index)) }}
+                            {% if pair.question.errors %}
+                                {{ pair.question(class="is-invalid form-control", aria_describedby=feedback) }}
+                                <div id="{{ feedback }}" class="d-block invalid-feedback">
+                                    {% for error in pair.question.errors %}
+                                        <span>{{ error }}&nbsp;</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ pair.question(class="form-control") }}
+                            {% endif %}
+                        </div>
+                {% endfor %}
+            </div>
+        {% endif %}
         {{ form.submit(class="btn btn-lg btn-success px-max mt-3 w-100") }}
     </form>
 {% endblock content %}
@@ -283,6 +290,7 @@
             refresh_form();
             return true;
         }
+        refresh_form();
     </script>
     <script type="text/javascript">
         // Ajaj v0.2.1
