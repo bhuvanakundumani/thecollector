@@ -6,7 +6,7 @@ from sqlalchemy_serializer import SerializerMixin
 class Base:
     @classmethod
     def col_startswith(
-        cls, col, key=None, exact=False, distinct=True, all=False, reshape=True
+        cls, col: str, key=None, exact=False, distinct=True, all=False, reshape=True
     ):
         """Find a value in a column that has a value that starts like `key`.
 
@@ -43,6 +43,15 @@ class Base:
     @classmethod
     def len(cls):
         return len(cls.query.all())
+
+    @classmethod
+    def record(cls, id: int):
+        return cls.query.filter(Data.id == id).first()
+
+    @classmethod
+    def list(cls, col: str):
+        col = getattr(cls, col)
+        return [i[0] for i in db.session.query(col).distinct().all()]
 
 
 class Data(Base, db.Model, SerializerMixin):
