@@ -37,7 +37,7 @@ def test_form():
 @app.route("/edit/<int:id>", methods=["GET", "POST"])
 def edit_id(id):
     rec = Data.record(id)
-    if rec == []:
+    if rec is None:
         return abort(404)
     form = IdImpossibleForm() if rec.is_impossible else IdAnswerableForm()
     if form.validate_on_submit():
