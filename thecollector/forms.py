@@ -53,12 +53,13 @@ def data_form_generator(
 
     class DataForm(FlaskForm):
         title = StringField(_("Title"), validators=[DataRequired()])
+        context_kw = {
+            "minlength": 900,
+            "rows": 12,
+        }
         context = TextAreaField(
             _("Context"),
-            render_kw={
-                "minlength": 900,
-                "rows": 12,
-            },
+            render_kw=context_kw,
             validators=[
                 Length(min=900),
                 DataRequired(),
@@ -171,20 +172,26 @@ def data_form_generator(
                 if nullify:
                     self.nullify()
 
-        def update_pair(self, record: db.Model, nullify: bool = False):
-            record.title = self.title.data
-            record.context = self.context.data
-            record.sign = self.sign.data
-            if record.is_impossible:
+        def update_pair(
+            self,
+            record: db.Model,
+            nullify: bool = False,
+            excludes: list = [],
+        ):
+            for i in ["title", "context", "sign"]:
+                if i not in excludes:
+                    setattr(record, i, getattr(self, i).data)
+            if record.is_impossible and "question" not in excludes:
                 pair = self.impossibles[0]
                 record.question = pair.question.data
             else:
                 pair = self.answerables[0]
-                record.question = pair.question.data
+                if "question" not in excludes:
+                    record.question = pair.question.data
                 pair = pair.answers[0]
-                record.answer_text = pair.text.data
-                record.answer_start = pair.start.data
-                record.answer_end = pair.end.data
+                for i in ["text", "start", "end"]:
+                    if i not in excludes:
+                        setattr(record, "answer_" + i, getattr(pair, i).data)
             try:
                 db.session.commit()
             except Exception as e:
