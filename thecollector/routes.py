@@ -41,7 +41,7 @@ def edit_id(id):
         return abort(404)
     form = IdImpossibleForm() if rec.is_impossible else IdAnswerableForm()
     if form.validate_on_submit():
-        form.commit(record=rec)
+        form.commit(record=rec, excludes=["context"])
         flash(_("Recorded"), "success")
     form.title.data = rec.title
     form.context.data = rec.context

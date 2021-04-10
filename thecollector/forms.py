@@ -215,7 +215,15 @@ IdAnswerableForm = data_form_generator(
     answerables_count=1,
     impossibles_count=0,
 )
+ro_context_kw = IdAnswerableForm.context_kw
+ro_context_kw["minlength"] = None
+ro_context_kw["readonly"] = ""
+ro_context = lambda: TextAreaField(
+    _("Context"),
+    render_kw=ro_context_kw,
+)
 IdAnswerableForm.commit = IdAnswerableForm.update_pair
+IdAnswerableForm.context = ro_context()
 del IdAnswerableForm.validate_title
 IdImpossibleForm = data_form_generator(
     answers_count=1,
@@ -223,4 +231,5 @@ IdImpossibleForm = data_form_generator(
     impossibles_count=1,
 )
 IdImpossibleForm.commit = IdAnswerableForm.update_pair
+IdAnswerableForm.context = ro_context()
 del IdImpossibleForm.validate_title
