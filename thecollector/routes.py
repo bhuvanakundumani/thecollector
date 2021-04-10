@@ -65,7 +65,7 @@ def edit_id(id=None):
     return render_template(
         "form.html",
         form=form,
-        title=_("Edit entry form"),
+        title=_("Edit entry form: #%s") % id,
         sign=rec.sign,
         editable_sign=True,
     )

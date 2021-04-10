@@ -39,40 +39,41 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: forms.py:57
+#: forms.py:61 forms.py:222
 msgid "Context"
 msgstr ""
 
-#: forms.py:77
+#: forms.py:78
 msgid "By"
 msgstr ""
 
-#: forms.py:78
+#: forms.py:79
 msgid "Submit"
 msgstr ""
 
-#: forms.py:99
+#: forms.py:100
 #, python-format
 msgid ""
 "Field must be equal to a slice from the start index to the end index of "
 "the context, %s."
 msgstr ""
 
-#: forms.py:114
+#: forms.py:115
 #, python-format
 msgid "Use unique questions; Question %(first)s is the same as %(second)s."
 msgstr ""
 
-#: routes.py:14 routes.py:27 routes.py:45
+#: routes.py:16 routes.py:29 routes.py:51
 msgid "Recorded"
 msgstr ""
 
-#: routes.py:32 templates/test_guideline.html:20
+#: routes.py:34 templates/test_guideline.html:20
 msgid "Test dataset form"
 msgstr ""
 
-#: routes.py:62
-msgid "Edit entry form"
+#: routes.py:68
+#, python-format
+msgid "Edit entry form: #%s"
 msgstr ""
 
 #: templates/form.html:2 templates/guideline.html:112

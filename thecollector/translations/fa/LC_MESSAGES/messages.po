@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: MYDavoodeh@gmail.com\n"
-"POT-Creation-Date: 2021-04-08 17:17+0430\n"
+"POT-Creation-Date: 2021-04-10 12:32+0430\n"
 "PO-Revision-Date: 2021-02-05 19:14+0330\n"
 "Last-Translator: M. Yas. Davoodeh <MYDavoodeh@gmail.com>\n"
 "Language: fa\n"
@@ -42,43 +42,44 @@ msgstr "پایان"
 msgid "Title"
 msgstr "عنوان"
 
-#: forms.py:57
+#: forms.py:61 forms.py:222
 msgid "Context"
 msgstr "بدنه"
 
-#: forms.py:77
+#: forms.py:78
 msgid "By"
 msgstr "توسط"
 
-#: forms.py:78
+#: forms.py:79
 msgid "Submit"
 msgstr "ثبت"
 
-#: forms.py:99
+#: forms.py:100
 #, python-format
 msgid ""
 "Field must be equal to a slice from the start index to the end index of "
 "the context, %s."
 msgstr "فیلد باید برابر با بخشی از اندیس شروع تا اندیس پایان بدنه، %s، باشد."
 
-#: forms.py:114
+#: forms.py:115
 #, python-format
 msgid "Use unique questions; Question %(first)s is the same as %(second)s."
 msgstr ""
 "از سؤالات یکتا استفاده کنید؛ سؤال %(first)s دقیقاً برابر با %(second)s "
 "است."
 
-#: routes.py:14 routes.py:27 routes.py:45
+#: routes.py:16 routes.py:29 routes.py:51
 msgid "Recorded"
 msgstr "ثبت شد"
 
-#: routes.py:32 templates/test_guideline.html:20
+#: routes.py:34 templates/test_guideline.html:20
 msgid "Test dataset form"
 msgstr "فرم دیتاست تست"
 
-#: routes.py:62
-msgid "Edit entry form"
-msgstr "فرم ویرایش داده"
+#: routes.py:68
+#, python-format
+msgid "Edit entry form: #%s"
+msgstr "فرم ویرایش داده: #%s"
 
 #: templates/form.html:2 templates/guideline.html:112
 #: templates/test_guideline.html:18
