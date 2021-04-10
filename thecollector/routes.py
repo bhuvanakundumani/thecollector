@@ -1,8 +1,10 @@
+from random import randint
+
 from .app import app
 from .forms import DataForm, TestDataForm, IdImpossibleForm, IdAnswerableForm
 from .db.models import Data
 
-from flask import render_template, flash, request, jsonify, abort
+from flask import render_template, flash, request, jsonify, abort, redirect, url_for
 from flask_babel import gettext as _
 
 
@@ -34,8 +36,12 @@ def test_form():
     )
 
 
+@app.route("/edit/", methods=["GET"])
+@app.route("/edit/random", methods=["GET"])
 @app.route("/edit/<int:id>", methods=["GET", "POST"])
-def edit_id(id):
+def edit_id(id=None):
+    if id is None:
+        return redirect(url_for("edit_id", id=randint(1, Data.len())))
     rec = Data.record(id)
     if rec is None:
         return abort(404)
