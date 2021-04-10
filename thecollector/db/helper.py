@@ -10,7 +10,7 @@ from . import db
 from .models import Data
 
 from time import strftime, gmtime
-from typing import Union, Literal
+from typing import Union, Literal, List, Dict
 import json
 import re
 import shutil
@@ -24,7 +24,7 @@ def hw():
     print("Too lazy to test, hah?")
 
 
-def delete_title(titles: Union[str, list], final: bool = False) -> None:
+def delete_title(titles: Union[str, List], final: bool = False) -> None:
     if isinstance(titles, str):
         titles = [titles]
     for i in titles:
@@ -49,7 +49,7 @@ def backup_db() -> str:
     return shutil.copy2(relative(db), relative(back))
 
 
-def signed_by(name) -> list[Data]:
+def signed_by(name) -> List[Data]:
     return Data.query.filter(
         sqlalchemy.func.lower(Data.sign) == sqlalchemy.func.lower(name)
     ).all()
@@ -59,7 +59,7 @@ def data_len() -> int:
     return len(Data.query.all())
 
 
-def data_jsonify(col=None) -> dict[str, list[dict[str, Union[str, list[dict]]]]]:
+def data_jsonify(col=None) -> Dict[str, List[Dict[str, Union[str, List[Dict]]]]]:
     if col is None:
         val = []
         for title in [i[0] for i in db.session.query(Data.title).distinct().all()]:
@@ -80,7 +80,7 @@ def data_jsonify(col=None) -> dict[str, list[dict[str, Union[str, list[dict]]]]]
 
 def data_jsonify_squad(
     only: Literal["single", "multi", None] = None,
-) -> list[dict[str, Union[str, list[dict]]]]:
+) -> List[Dict[str, Union[str, List[Dict]]]]:
     # TODO optimize, so HACK-y
     val = []
     for title in [i[0] for i in db.session.query(Data.title).distinct().all()]:
@@ -146,7 +146,7 @@ def data_dump_real():
 
 
 # read_squad_v2 function
-def data_test_custom(path) -> list[dict]:
+def data_test_custom(path) -> List[Dict]:
     path = relative(path)
     ds = []
     with open(path, encoding="utf-8") as f:
