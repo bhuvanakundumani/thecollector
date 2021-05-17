@@ -1,3 +1,10 @@
+#+TITLE: The collector
+
+This project has served its purpose (which was to help making 
+[[https://github.com/sajjjadayobi/persianqa][PersianQA Dataset]]).
+Therefore, although its not perfect, there won't be much changes to it (unless
+someone has a particular issue with it and only I can help with).
+
 * Starting a local version
 
 To clone the repo and initialize it (using [[https://python-poetry.org/][Poetry]]), run:
