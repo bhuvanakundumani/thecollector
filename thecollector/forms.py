@@ -41,7 +41,7 @@ class AnswerForm(Form):
 
 def data_form_generator(
     answers_count: int = 1,
-    answerables_count: int = 7,
+    answerables_count: int = 5,
     impossibles_count: int = 3,
 ) -> object:
     class PairedAnswerForm(QuestionForm):
